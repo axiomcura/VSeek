@@ -1,0 +1,7 @@
+*.pyc
+*.fastq
+fastq_files
+SRA_download
+results
+.DS_Store
+notes.txt
