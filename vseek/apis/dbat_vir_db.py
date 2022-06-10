@@ -126,12 +126,14 @@ def collector() -> list:
         dl_btn = driver.find_element_by_xpath(
             "//*[contains(text(), 'Save this table')]"
         )
+
+        sleep(2)  # for every grouped action, add a sleep to prevent server overload
         dl_btn.click()
-        sleep(1)  # for every grouped action, add a sleep to prevent server overload
+        sleep(1)
 
     # ending the bot life
     print("Download complete! Closing portal...")
-    sleep(1)
+    sleep(4)
     driver.quit()
 
     # getting list of and removing temporary directory
@@ -151,7 +153,7 @@ def collect_dbatvir_data() -> pd.DataFrame:
     save_path = os.path.join(db_path, "DBatVir_db.csv.gz")
 
     # if it exists in the database, no need to download
-    check = Path(save_path).is_file() 
+    check = Path(save_path).is_file()
     if check is True:
         return pd.read_csv(save_path)
 
