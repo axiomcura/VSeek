@@ -46,7 +46,7 @@ def genome_db_path() -> str:
     str
         path to genome database
     """
-    gdb_path = Path(db_path) / "genome"
+    gdb_path = Path(db_path()) / "genome"
     return str(gdb_path.absolute())
 
 

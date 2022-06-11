@@ -10,7 +10,9 @@ import entrezpy.conduit
 
 # VSeek imports
 import vseek.common.vseek_paths as vsp
+from vseek.common.checks import genome_db_exist
 from vseek.utils.parsers import parse_ncbi_viral_accessions
+from vseek.common.io_files import genome_db_files, save_genome
 
 
 def get_all_viral_accessions() -> pd.DataFrame:
@@ -63,23 +65,45 @@ def get_viral_genomes(email: str, accessions: Union[str, list], buffer=0.5) -> d
     None
         Generates a genome database under ./db
     """
-    print("\n Building genome database ...")
+    print("\nBuilding genome database ...")
     if isinstance(accessions, str):
         accessions = accessions.split()
 
+    # if the database exists, check for missing files and download them
+    print("Checking if genome database exists ...")
+    if genome_db_exist():
+        print("Genome database already exists. Checking for missing files")
+        expected = set(accessions)
+        gdb_files = {gpath.rsplit("/", 1)[-1] for gpath in genome_db_files()}
+        missing = expected - gdb_files
+
+        # download missing genomes
+        if len(missing) > 0:
+            print("Warning there are some missing genomes")
+            for acc_id in missing:
+                print(f"> Requesting {acc_id} genome ... ")
+                viral_genome = _call_entrez_viral_genome(
+                    email=email, accession=acc_id, buffer=buffer
+                )
+                save_genome(accession=acc_id, contents=viral_genome)
+
+            return genome_db
+
+        # no missing files, just return path
+        else:
+            print("No missing genomes")
+            return genome_db
+
+    # if database does not exist, create database and download all genomes
+    genome_db = vsp.init_genome_db_path()
     for acc_id in accessions:
-        print(f"Requesting {acc_id} genome ... ")
+        print(f">Requesting {acc_id} genome ... ")
         viral_genome = _call_entrez_viral_genome(
             email=email, accession=acc_id, buffer=buffer
         )
+        save_genome(accession=acc_id, contents=viral_genome)
 
-        # writing out fasta file
-        genome_path = Path(vsp.init_genome_db_path()) / acc_id
-        genome_path.mkdir(exist_ok=True)
-
-        save_path = genome_path / f"{acc_id}.fasta"
-        with open(save_path, "w") as outfile:
-            outfile.write(viral_genome)
+    return genome_db
 
 
 # ------------------------------

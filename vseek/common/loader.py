@@ -1,4 +1,9 @@
+import glob
+
 import pandas as pd
+
+# vseek imports
+import vseek.common.vseek_paths as vsp
 from vseek.common.checks import check_fasta_format
 from vseek.common.errors import InvalidFileError
 
@@ -34,6 +39,7 @@ def load_genome(file_path: str) -> tuple:
     # flattening sequence
     header, sequence = _flatten_fasta_sequence(contents)
     return (header, sequence)
+
 
 
 # -----------------------------

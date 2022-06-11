@@ -1,3 +1,4 @@
+from pathlib import Path
 import shutil
 
 # program imports
@@ -65,17 +66,26 @@ def check_fasta_format(fasta_content: str) -> None:
     # sequence length (each line should be 60, last line can be lower than 60)
     for line in fasta_content[1:]:
         if not len(line) <= 60:
-            raise InvalidFastaFormatError("Loaded fasta file contains invalid sequence length")
+            raise InvalidFastaFormatError(
+                "Loaded fasta file contains invalid sequence length"
+            )
 
     return
 
 
-
-#------------------------------
+# ------------------------------
 # database checks
-#------------------------------
+# ------------------------------
 def genome_db_exist() -> bool:
-    """ Checks if the genome database exists"""
-    genome_db_path = vsp.
+    """Checks if the genome database exists
 
+    Returns
+    -------
+    bool
+        True if exists, False it does not exist
+    """
 
+    genome_db_path = vsp.genome_db_path()
+    if not Path(genome_db_path).is_dir:
+        return False
+    return True
