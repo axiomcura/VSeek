@@ -1,7 +1,7 @@
 import shutil
 
 # program imports
-from vseek.common.errors import UnsupportedDependencyError, MissingDependencyError
+from vseek.common.errors import *
 
 # dowloading the data module
 def dependency_check(prog: str) -> bool:
@@ -39,4 +39,33 @@ def dependency_check(prog: str) -> bool:
         raise MissingDependencyError(f"{prog} is not installed")
 
     return True
+
+
+def check_fasta_format(fasta_content: str) -> None:
+    """Checks the integrity of the FASTA format
+
+    Parameters
+    ----------
+    fasta_content : str
+        Fasta file content
+
+    Raises
+    ------
+    InvalidFastaFormatError
+        Raised if the contents possess invalid FASTA structure
+    """
+    fasta_content = fasta_content.splitlines()
+    header = fasta_content[0]
+
+    # header check
+    if not header.startswith(">"):
+        raise InvalidFastaFormatError("Loaded fasta file contains a corrupt header")
+
+    # sequence length (each line should be 60, last line can be lower than 60)
+    for line in fasta_content[1:]:
+        if not len(line) <= 60:
+            raise InvalidFastaFormatError("Loaded fasta file contains invalid sequence length")
+
+    return 
+
 
