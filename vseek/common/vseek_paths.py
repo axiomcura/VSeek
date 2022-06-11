@@ -1,10 +1,13 @@
 import os
 from pathlib import Path
 
-# base functions
+# -----------------------------
+# Path functions
+# -----------------------------
 def relative_root_path() -> str:
     re_path = "./VSeek"
     return re_path
+
 
 def root_path() -> str:
     """Returns project root path
@@ -35,6 +38,21 @@ def db_path() -> str:
     return db_path
 
 
+def genome_db_path() -> str:
+    """Returns database path
+
+    Returns
+    -------
+    str
+        path to genome database
+    """
+    gdb_path = Path(db_path) / "genome"
+    return str(gdb_path.absolute())
+
+
+# -----------------------------
+# Initializations of databases
+# -----------------------------
 def init_db_path() -> str:
     """Creates a database folder in the root project directory.
 
@@ -58,11 +76,9 @@ def init_genome_db_path() -> str:
     str
         path to genome data
     """
-    db_path_str = db_path()
-    dir_name = "genome"
 
-    genome_path_obj = Path(db_path_str) / dir_name
+    genome_path_obj = Path(genome_db_path())
     genome_path_obj.mkdir(exist_ok=True)
-    genome_path = str((Path(db_path_str) / dir_name).absolute())
+    genome_path = str(genome_path_obj.absolute())
 
     return genome_path

@@ -1,6 +1,7 @@
 import shutil
 
 # program imports
+import vseek.common.vseek_paths as vsp
 from vseek.common.errors import *
 
 # dowloading the data module
@@ -66,6 +67,15 @@ def check_fasta_format(fasta_content: str) -> None:
         if not len(line) <= 60:
             raise InvalidFastaFormatError("Loaded fasta file contains invalid sequence length")
 
-    return 
+    return
+
+
+
+#------------------------------
+# database checks
+#------------------------------
+def genome_db_exist() -> bool:
+    """ Checks if the genome database exists"""
+    genome_db_path = vsp.
 
 

@@ -1,6 +1,12 @@
+import sys
+from time import sleep
+from io import StringIO
+from typing import Union
 from pathlib import Path
+
 import requests
 import pandas as pd
+import entrezpy.conduit
 
 # VSeek imports
 import vseek.common.vseek_paths as vsp
@@ -8,8 +14,7 @@ from vseek.utils.parsers import parse_ncbi_viral_accessions
 
 
 def get_all_viral_accessions() -> pd.DataFrame:
-    """Sends a request to ncbi to obtain all viral genome accessions
-    """
+    """Sends a request to ncbi to obtain all viral genome accessions"""
 
     csv_name = "ncbi_viral_accession_db.csv.gz"
     db = vsp.init_db_path()
@@ -39,5 +44,93 @@ def get_all_viral_accessions() -> pd.DataFrame:
         return pd.read_csv(file_path)
 
 
+def get_viral_genomes(email: str, accessions: Union[str, list], buffer=0.5) -> dict:
+    """Downloads all viral gneomes and generates a viral genome profiles
+
+    Parameters
+    ----------
+    email : str
+        valid email address require to send requests to the NCBI
+        database using entrez.
+    accession : Union[str, list]
+        string or list of accession numbers
+    buffer : int, float
+        Buffer time added after submitting a request in seconds
+        Default = 0.5
+
+    Return
+    ------
+    None
+        Generates a genome database under ./db
+    """
+    print("\n Building genome database ...")
+    if isinstance(accessions, str):
+        accessions = accessions.split()
+
+    for acc_id in accessions:
+        print(f"Requesting {acc_id} genome ... ")
+        viral_genome = _call_entrez_viral_genome(
+            email=email, accession=acc_id, buffer=buffer
+        )
+
+        # writing out fasta file
+        genome_path = Path(vsp.init_genome_db_path()) / acc_id
+        genome_path.mkdir(exist_ok=True)
+
+        save_path = genome_path / f"{acc_id}.fasta"
+        with open(save_path, "w") as outfile:
+            outfile.write(viral_genome)
 
 
+# ------------------------------
+# private caller functions
+# ------------------------------
+def _call_entrez_viral_genome(email: str, accession: str, buffer=0.3) -> str:
+    """Submits request to NCBI viral genome database via entrez portal.
+
+    Parameters
+    ----------
+    email : str
+        valid email address
+    accession : str
+        genome accession number
+    buffer : int, float
+        Buffer time added when submitting a request in seconds
+        Default = 0.3
+
+    Returns
+    -------
+    str
+        Genome fasta
+    """
+    # creating a reference of the default stdout
+    old_stdout = sys.stdout
+
+    # creating a container storing stdout
+    fasta_result = StringIO()
+    sys.stdout = fasta_result
+
+    # calling
+    c = entrezpy.conduit.Conduit(email)
+    fetch_influenza = c.new_pipeline()
+    sid = fetch_influenza.add_search(
+        {
+            "db": "nucleotide",
+            "term": f"{accession}",
+            "rettype": "count",
+            "datetype": "pdat",
+        }
+    )
+    fid = fetch_influenza.add_fetch(
+        {"retmax": 10, "retmode": "text", "rettype": "fasta"}, dependency=sid
+    )
+    c.run(fetch_influenza)
+    sleep(buffer)
+
+    # store the string from the stdout into variable
+    genome = fasta_result.getvalue()
+
+    # now redict back stdout to screen
+    sys.stdout = old_stdout
+
+    return genome
