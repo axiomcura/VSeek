@@ -1,6 +1,10 @@
 import os
 from pathlib import Path
 
+# base functions
+def relative_root_path() -> str:
+    re_path = "./VSeek"
+    return re_path
 
 def root_path() -> str:
     """Returns project root path
@@ -32,7 +36,33 @@ def db_path() -> str:
 
 
 def init_db_path() -> str:
+    """Creates a database folder in the root project directory.
+
+    Returns
+    -------
+    str
+        _description_
+    """
     db_path_obj = Path(db_path())
     db_path_obj.mkdir(exist_ok=True)
 
     return str(db_path_obj.absolute())
+
+
+def init_genome_db_path() -> str:
+    """Returns path to viral genome directory. If the directory does not exists,
+    it will create one.
+
+    Returns
+    -------
+    str
+        path to genome data
+    """
+    db_path_str = db_path()
+    dir_name = "genome"
+
+    genome_path_obj = Path(db_path_str) / dir_name
+    genome_path_obj.mkdir(exist_ok=True)
+    genome_path = str((Path(db_path_str) / dir_name).absolute())
+
+    return genome_path

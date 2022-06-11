@@ -37,3 +37,7 @@ def get_all_viral_accessions() -> pd.DataFrame:
     else:
         file_path = str(file_path_obj.absolute())
         return pd.read_csv(file_path)
+
+
+
+
