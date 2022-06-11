@@ -18,8 +18,8 @@ def root_path() -> str:
 
 
 def db_path() -> str:
-    """ Returns path pointing to database folder
-    
+    """Returns path pointing to database folder
+
     Returns
     -------
     str
@@ -29,7 +29,7 @@ def db_path() -> str:
     db_path = str(root / "db")
 
     return db_path
-    
+
 
 def init_db_path() -> str:
     db_path_obj = Path(db_path())

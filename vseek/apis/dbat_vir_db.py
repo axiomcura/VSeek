@@ -79,8 +79,9 @@ def collector() -> list:
     options.add_argument("--ignore-certificate-errors")
 
     # -- we should also specify that we want to download the files to the current directory
-    temp_dl_path = tempfile.TemporaryDirectory()
-    dl_path = temp_dl_path.name
+    # temp_dl_path = tempfile.TemporaryDirectory()
+    dl_path = f"{os.getcwd()}/temp_dl"
+    dl_path_object = Path(dl_path)
 
     prefs = {"download.default_directory": dl_path}
     options.add_experimental_option("prefs", prefs)
@@ -92,7 +93,7 @@ def collector() -> list:
         service=Service(ChromeDriverManager().install()), chrome_options=options
     )
     driver.get("http://www.mgc.ac.cn/cgi-bin/ZOVER/mainTable.cgi?db=chiroptera")
-    sleep(3)  # buffer time to load the page
+    sleep(3)
     print("Connected to DBatVir!")
 
     # ------------------------------
