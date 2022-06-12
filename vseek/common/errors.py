@@ -1,6 +1,6 @@
 # base classes for expcetions
-class Error(Exception):
-    """Base class error for other exceptions"""
+class FileNotFoundError(Exception):
+    """Base exceptions for missing files"""
 
     pass
 
@@ -45,4 +45,20 @@ class InvalidFileError(InvalidFormats):
 class InvalidFastaFormatError(InvalidFormats):
     """Raised if FASTA contents possess an invalid format"""
 
+    pass
+
+
+class ProfileNotFound(FileNotFoundError):
+    """Raised if genome profile is missing"""
+
+    pass
+
+
+class GenomeDirectoryNotFound(FileNotFoundError):
+    """Raised if the Genome directory is not found"""
+    pass
+
+
+class FastaFileNotFound(FileNotFoundError):
+    """Raised if the FASTA file is not found"""
     pass
