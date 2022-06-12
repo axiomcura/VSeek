@@ -1,6 +1,6 @@
 # sra_callers.py
 # module contains wrapper
-import shutil
+
 from typing import Union
 import subprocess
 from pathlib import Path
@@ -55,7 +55,7 @@ def download_fasta(
 
     # prefetching sra files
     srr_string = " ".join(sra_ids)
-    print(f"Prefetching {sra_ids} data...")
+    print(f"Prefetching {srr_string} data...")
     prefetched_files = prefetch_srr_files(sra_ids, prefetch_dir)
 
     # validate prefetch files
@@ -169,7 +169,6 @@ def fasterq_dump(
             _call(fasterq_cmd)
         elif seq_format == "fasta":
             fastq_cmd = f"{fastq_prog} {prefetch_path} --{seq_format} 60 -O {outdir}"
-            print(fastq_cmd)
             _call(fastq_cmd)
         else:
             raise SequenceFormatNotSupported(f"{seq_format} is not supported")

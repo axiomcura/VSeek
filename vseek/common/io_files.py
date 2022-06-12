@@ -5,7 +5,7 @@ from pathlib import Path
 # vseek imports
 import vseek.common.vseek_paths as vsp
 from vseek.common.errors import *
-from vseek.common.checks import prefetch_dir_exists
+from vseek.common.checks import prefetch_dir_exists, metagenome_dir_exists
 
 
 def genome_dir_paths() -> list[str]:
@@ -129,6 +129,24 @@ def get_prefetch_files() -> list[str]:
     return all_pfiles
 
 
+def get_meta_genomes_paths() -> dict:
+    """Gets all paths that points to downloaded meta-genome files
+
+    Returns
+    -------
+    list[str]
+        list of paths pointing to meta-genome files
+    """
+    check = metagenome_dir_exists()
+    if check is False:
+        raise FileNotFoundError("Meta-genome folder has not been created")
+
+    # get all metagenome files
+    all_metagenome_files = _all_metagenome_files()
+
+    return all_metagenome_files
+
+
 # -----------------------------
 # Writer functions
 # -----------------------------
@@ -171,7 +189,7 @@ def _fasta_path_lookup() -> dict:
 
     all_fasta_paths = defaultdict(None)
     for genome_path in genome_db_paths:
-        genome_id = genome_path.split("/")[-2]
+        genome_id = genome_path.split("/")[-1].split(".")[0]
         query = f"{genome_path}/*.fasta"
         fasta_file_path = glob.glob(query)
         all_fasta_paths[genome_id] = fasta_file_path
@@ -225,6 +243,13 @@ def _all_prefetch_files() -> list[str]:
     """
     prefetch_dir = vsp.prefetch_path()
     query = f"{prefetch_dir}/*/*.sra"
+    all_files = glob.glob(query)
+
+    return all_files
+
+def _all_metagenome_files():
+    metagenome_dir = vsp.metagenome_path()
+    query = f"{metagenome_dir}/*.fasta"
     all_files = glob.glob(query)
 
     return all_files

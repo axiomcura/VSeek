@@ -117,3 +117,17 @@ def results_dir_exists() -> bool:
     if not Path(results_dir).is_dir():
         return False
     return True
+
+
+def metagenome_dir_exists() -> bool:
+    """Checks if the results meta-genome directory exists
+
+    Returns
+    -------
+    bool
+        True if exists, False it does not exist
+    """
+    results_dir = vsp.metagenome_path()
+    if not Path(results_dir).is_dir():
+        return False
+    return True

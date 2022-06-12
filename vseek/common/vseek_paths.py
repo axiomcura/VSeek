@@ -83,8 +83,8 @@ def prefetch_path() -> str:
     return str(pfetch_path.absolute())
 
 
-def fasta_path() -> str:
-    """Returns path to fasta directory
+def metagenome_path() -> str:
+    """Returns path to fasta meta-genome directory
 
     Returns
     -------

@@ -4,6 +4,7 @@
         "entrezpy",
         "fasta",
         "fasterq",
+        "metagenome",
         "NCBI's"
     ]
 }
