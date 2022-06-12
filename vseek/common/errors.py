@@ -56,9 +56,18 @@ class ProfileNotFound(FileNotFoundError):
 
 class GenomeDirectoryNotFound(FileNotFoundError):
     """Raised if the Genome directory is not found"""
+
     pass
 
 
 class FastaFileNotFound(FileNotFoundError):
     """Raised if the FASTA file is not found"""
+
+    pass
+
+
+class SequenceFormatNotSupported(InvalidFormats):
+    """Raised when attempting to create a specific sequence format
+    but it is not supported"""
+
     pass

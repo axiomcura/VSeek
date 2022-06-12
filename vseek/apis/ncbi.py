@@ -12,7 +12,7 @@ import entrezpy.conduit
 import vseek.common.vseek_paths as vsp
 from vseek.common.checks import genome_db_exist
 from vseek.utils.parsers import parse_ncbi_viral_accessions
-from vseek.common.io_files import genome_db_files, save_genome
+from vseek.common.io_files import genome_dir_paths, save_genome
 
 
 def get_all_viral_accessions() -> pd.DataFrame:
@@ -27,7 +27,7 @@ def get_all_viral_accessions() -> pd.DataFrame:
         url = "https://www.ncbi.nlm.nih.gov/genomes/GenomesGroup.cgi?taxid=10239&cmd=download2"
         r = requests.get(url, timeout=10)
         if r.status_code != 200:
-            raise ConnectionError("could not donwload data")
+            raise ConnectionError("could not download data")
 
         # parsing contents
         header, viral_cont = parse_ncbi_viral_accessions(r.text)
@@ -65,6 +65,7 @@ def get_viral_genomes(email: str, accessions: Union[str, list], buffer=0.5) -> d
     None
         Generates a genome database under ./db
     """
+    genome_db = vsp.init_genome_db_path()
     print("\nBuilding genome database ...")
     if isinstance(accessions, str):
         accessions = accessions.split()
@@ -74,7 +75,7 @@ def get_viral_genomes(email: str, accessions: Union[str, list], buffer=0.5) -> d
     if genome_db_exist():
         print("Genome database already exists. Checking for missing files")
         expected = set(accessions)
-        gdb_files = {gpath.rsplit("/", 1)[-1] for gpath in genome_db_files()}
+        gdb_files = {gpath.rsplit("/", 1)[-1] for gpath in genome_dir_paths()}
         missing = expected - gdb_files
 
         # download missing genomes
@@ -104,6 +105,24 @@ def get_viral_genomes(email: str, accessions: Union[str, list], buffer=0.5) -> d
         save_genome(accession=acc_id, contents=viral_genome)
 
     return genome_db
+
+
+# TODO: Requires implementation
+def generate_viral_genome_profile(genome_db: str) -> dict:
+    """Generates a json file that profiles
+
+    Parameters
+    ----------
+    genome_db : str
+        path to genome database
+
+    Returns
+    -------
+    dict
+        viral genome profiles. Also written in JSON format in the genome database
+    """
+    # gene_positions = _call_entrez_viral_genes(email=email, accession=acc_id)
+    pass
 
 
 # ------------------------------
@@ -158,3 +177,29 @@ def _call_entrez_viral_genome(email: str, accession: str, buffer=0.3) -> str:
     sys.stdout = old_stdout
 
     return genome
+
+
+# TODO: requires implementation
+def _call_entrez_viral_genes(email: str, accession: str, buffer=0.5) -> str:
+    """Submits request to NCBI's genes database via entrez portal
+
+    Parameters
+    ----------
+    email : str
+        valid email address
+    accession : str
+        genome accession number
+    buffer : int, float
+        Buffer time added when submitting a request in seconds
+        Default = 0.5
+
+    Returns
+    -------
+    str
+        TODO: add return type information
+    """
+
+    # call genes data
+
+    # internal parser that returns a tuple of ranges
+    pass

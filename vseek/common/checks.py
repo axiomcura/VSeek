@@ -27,7 +27,7 @@ def dependency_check(prog: str) -> bool:
         Raised if attempt to call unsupported executable. Please look at supported
         executables in the README.md file.
     """
-    callables = ["prefetch", "fasterq-dump"]
+    callables = ["prefetch", "fastq-dump", "fasterq-dump", "vdb-validate"]
 
     # checking if the callable is supported
     if prog not in callables:
@@ -87,5 +87,33 @@ def genome_db_exist() -> bool:
 
     genome_db_path = vsp.genome_db_path()
     if not Path(genome_db_path).is_dir:
+        return False
+    return True
+
+
+def prefetch_dir_exists() -> bool:
+    """Checks if the prefetch directory exists
+
+    Returns
+    -------
+    bool
+        True if exists, False it does not exist
+    """
+    prefetch_dir = vsp.prefetch_path()
+    if not Path(prefetch_dir).is_dir:
+        return False
+    return True
+
+
+def results_dir_exists() -> bool:
+    """Checks if the results directory exists
+
+    Returns
+    -------
+    bool
+        True if exists, False it does not exist
+    """
+    results_dir = vsp.results_dir()
+    if not Path(results_dir).is_dir():
         return False
     return True

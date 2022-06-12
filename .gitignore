@@ -1,7 +1,8 @@
 *.pyc
 *.fastq
 fastq_files
-SRA_download
+fasta_files
+SRA_prefetch
 results
 .DS_Store
 notes.txt

@@ -1,29 +1,33 @@
+# sra_callers.py
+# module contains wrapper
 import shutil
+from typing import Union
 import subprocess
 from pathlib import Path
 
 # program imports
-from vseek.common.errors import ExecutionError
+import vseek.common.vseek_paths as vsp
+from vseek.common.io_files import get_prefetch_files
+from vseek.common.errors import ExecutionError, SequenceFormatNotSupported
 from vseek.common.checks import dependency_check
 
 
-def download_fastq(
-    sra_ids: str | list,
+def download_fasta(
+    sra_ids: Union[str, list[str]],
     threads=4,
-    prefetch_dir="SRA_download",
-    fastq_dir="fastq_files",
     verbose=False,
 ) -> str:
-    """Downloads fastq file to local machine with given sra ascension id.
+    """Downloads fasta file to local machine with given sra ascension id.
     Contains 3 processes. Prefetching the data, downloading the required files
-    from the NCBI's database in preperation for downloading the the fastq files.
+    from the NCBI's database in preparation for downloading the the fasta files.
     vbd_view step, checks for data corruption. Fasterq-dump, uses the prefetched
-    files to easily download the requested fasterq-files associated with the
+    files to easily download the requested fasterq-files associated with the sra
+    id.
 
     Parameters
     ----------
-    sra_ids : str | list
-        single string that are delimited if multiple sra ids
+    sra_ids : Union[str, list[str]]
+        single string that are delimited by white space if multiple sra ids
         by white spaces or a list of sra ascension ids
     threads : int, optional
         number of threads to use for downloading fastq files,
@@ -46,38 +50,134 @@ def download_fastq(
         sra_ids = sra_ids.split()
 
     # creating a prefetch directory
-    prefetch_path = Path(f"results/{prefetch_dir}")
-    prefetch_path.mkdir(exist_ok=True)
-    fastq_path = Path(f"results/{fastq_dir}")
-    fastq_path.mkdir(exist_ok=True)
-
-    # executeable names
-    prefetch_prog = "prefetch"
-    fasterq_prog = "fasterq-dump"
-
-    # checking dependencies
-    dependency_check(prefetch_prog)
-    dependency_check(fasterq_prog)
+    prefetch_dir = vsp.init_prefetch_dir()
+    fasta_dir = vsp.init_fasta_dir()
 
     # prefetching sra files
-    print("Prefetching SRR data...")
-    sra_ids_str = " ".join(sra_ids)
-    prefetch_cmd = f"{prefetch_prog} {sra_ids_str} -O {prefetch_path.absolute()}"
+    srr_string = " ".join(sra_ids)
+    print(f"Prefetching {sra_ids} data...")
+    prefetched_files = prefetch_srr_files(sra_ids, prefetch_dir)
+
+    # validate prefetch files
+    validate_prefetch_files(prefetched_files)
+
+    # download sequence files
+    print("Downloading Fastq files")
+    fasterq_dump(prefetched_files, outdir=fasta_dir)
+
+    return fasta_dir
+
+
+def prefetch_srr_files(accession_ids: Union[str, list[str]], out_dir: str) -> list[str]:
+    """Downloads prefetched files using the prefetch executable
+
+    Parameters
+    ----------
+    accession_ids : Union[str,list[str]]
+        string (white spaced if multiple) or list of accession id numbers
+    out_dir : str
+        path to save prefetched files
+
+    Raises
+    ------
+    ExecutionError
+        Failed if the prefetch executable returns a error code.
+    """
+
+    # checking dependencies
+    prefetch_prog = "prefetch"
+    dependency_check(prefetch_prog)
+
+    # checking types
+    if isinstance(accession_ids, str):
+        accession_ids = accession_ids.split()
+
+    # prefetch cmd
+    accession_ids_str = " ".join(accession_ids)
+    prefetch_cmd = f"{prefetch_prog} {accession_ids_str} -O {out_dir}"
     _call(prefetch_cmd)
 
-    # TODO: add vdb_view steps checking that the files are not corrupt
-    # downloading fastq files
-    print("Downloading Fastq files")
-    for sra_id in sra_ids:
-        fasterq_cmd = f"{fasterq_prog} {prefetch_path.absolute()}/{sra_id}/{sra_id}.sra -e {threads} -O {fastq_path.absolute()}"
-        print(fasterq_cmd)
-    #    _call(fasterq_cmd)
-    #    print(f"{sra_id} fastq file download complete")
+    # collecting all prefetch file paths
+    prefetched_files = get_prefetch_files()
 
-    return fastq_path.absolute()
+    return prefetched_files
 
 
-# TODO: add error parser for each callable?
+def validate_prefetch_files(prefetch_file: Union[str, list[str]]) -> None:
+    """Checks integrity of prefetch files using vdb-validate executable
+
+    Parameters
+    ----------
+    prefetch_file : Union[str, list[str]]
+        string (white spaced if multiple) or list of paths pointing to prefetch files
+
+    Raises
+    ------
+    ExecutionError
+        Failed if the vdb-validate executable returns a error exit code.
+    """
+
+    # checking dependencies
+    validate_prog = "vdb-validate"
+    dependency_check(validate_prog)
+
+    # type checking
+    if isinstance(prefetch_file, str):
+        prefetch_file = prefetch_file.split()
+
+    for p_file_path in prefetch_file:
+        cmd = f"{validate_prog} {p_file_path}"
+        _call(cmd)
+
+
+def fasterq_dump(
+    prefetch_file: Union[str, list[str]], outdir: str, seq_format="fasta", threads=4
+) -> None:
+    """Downloads sequence files ("Fasta" or "Fastq") using the fasterq-dump executable
+
+    Parameters
+    ----------
+    prefetch_file : Union[str, list[str]]
+        string (white spaced if multiple) or list of prefetch file paths.
+    outdir : str
+        directory to store downloaded fasta files
+    threads : int, optional
+        number of threads used to download files, by default 4
+    seq_format : str
+        file format output. supported formats = ["fastq", "fasta"]
+
+    Raises
+    ------
+    ExecutionError
+        _description_
+    """
+
+    # checking dependencies
+    fastq_prog = "fastq-dump"
+    fasterq_prog = "fasterq-dump"
+    dependency_check(fastq_prog)
+    dependency_check(fasterq_prog)
+
+    # type checking
+    if isinstance(prefetch_file, str):
+        prefetch_file = prefetch_file.split()
+
+    # downloading sequence files
+    for prefetch_path in prefetch_file:
+        if seq_format == "fastq":
+            fasterq_cmd = f"{fasterq_prog} {prefetch_path} -e {threads} -O {outdir}"
+            _call(fasterq_cmd)
+        elif seq_format == "fasta":
+            fastq_cmd = f"{fastq_prog} {prefetch_path} --{seq_format} 60 -O {outdir}"
+            print(fastq_cmd)
+            _call(fastq_cmd)
+        else:
+            raise SequenceFormatNotSupported(f"{seq_format} is not supported")
+
+
+# -----------------------------
+# Private functions
+# -----------------------------
 def _call(cmd: str) -> int:
     """Wrapper for calling executable
 
@@ -95,7 +195,7 @@ def _call(cmd: str) -> int:
     Raises:
     -------
     ExecutionFailedError:
-        raised when a non-zero exit status code is raised from the executable
+        Failed if the executable returns a error exit code.
     """
     cmd = cmd.split()
     call = subprocess.run(

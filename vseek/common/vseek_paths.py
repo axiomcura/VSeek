@@ -1,6 +1,9 @@
 import os
 from pathlib import Path
 
+# vseek imports
+from vseek.common.checks import results_dir_exists
+
 # -----------------------------
 # Path functions
 # -----------------------------
@@ -33,9 +36,23 @@ def db_path() -> str:
         path to db directory
     """
     root = Path(root_path())
-    db_path = str(root / "db")
+    database_path = str(root / "db")
 
-    return db_path
+    return database_path
+
+
+def results_dir() -> str:
+    """Returns a path pointing to
+
+    Returns
+    -------
+    str
+        _description_
+    """
+    root = Path(root_path())
+    results_path = str(root / "results")
+
+    return results_path
 
 
 def genome_db_path() -> str:
@@ -50,9 +67,55 @@ def genome_db_path() -> str:
     return str(gdb_path.absolute())
 
 
+def prefetch_path() -> str:
+    """Returns path to SRA Prefetch directory
+
+    Returns
+    -------
+    str
+        path to SRA Prefetch directory
+    """
+    # checking if the results directory exists if not create one
+    if not results_dir_exists():
+        init_results_dir()
+
+    pfetch_path = Path(results_dir()) / "SRA_prefetch"
+    return str(pfetch_path.absolute())
+
+
+def fasta_path() -> str:
+    """Returns path to fasta directory
+
+    Returns
+    -------
+    str
+        path to fasta directory
+    """
+    # checking if the results directory exists if not create one
+    if not results_dir_exists():
+        init_results_dir()
+
+    fasta_dir_path = Path(results_dir()) / "fasta_files"
+    return str(fasta_dir_path.absolute())
+
+
 # -----------------------------
-# Initializations of databases
+# Initializations of directories
 # -----------------------------
+def init_results_dir() -> str:
+    """Creates resutls directory if it does not exists.
+
+    Returns
+    -------
+    str
+        path to results dictionary
+    """
+    results_path_obj = Path(results_dir())
+    results_path_obj.mkdir(exist_ok=True)
+
+    return str(results_path_obj.absolute())
+
+
 def init_db_path() -> str:
     """Creates a database folder in the root project directory.
 
@@ -82,3 +145,35 @@ def init_genome_db_path() -> str:
     genome_path = str(genome_path_obj.absolute())
 
     return genome_path
+
+
+def init_prefetch_dir() -> str:
+    """Creates a prefetch directory if it does not exists and returns
+    the path.
+
+    Returns
+    -------
+    str
+        path to prefetch directory
+    """
+    pfetch_path_obj = Path(prefetch_path())
+    pfetch_path_obj.mkdir(exist_ok=True)
+    pfetch_path = str(pfetch_path_obj.absolute())
+
+    return pfetch_path
+
+
+def init_fasta_dir() -> str:
+    """Creates a fasta directory if it does not exists and returns
+    the path.
+
+    Returns
+    -------
+    str
+        path to fasta directory
+    """
+    fasta_path_obj = Path(fasta_path())
+    fasta_path_obj.mkdir(exist_ok=True)
+    fasta_path_str = str(fasta_path_obj.absolute())
+
+    return fasta_path_str

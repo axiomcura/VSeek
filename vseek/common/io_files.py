@@ -4,8 +4,8 @@ from pathlib import Path
 
 # vseek imports
 import vseek.common.vseek_paths as vsp
-from vseek.common.io_files import genome_db_files
 from vseek.common.errors import *
+from vseek.common.checks import prefetch_dir_exists
 
 
 def genome_dir_paths() -> list[str]:
@@ -110,6 +110,25 @@ def get_genome_dir_path(query=None) -> dict:
         return result_query
 
 
+def get_prefetch_files() -> list[str]:
+    """Gets all paths that points to downloaded prefetch files
+
+    Returns
+    -------
+    list[str]
+        list of paths pointing to sra prefetched files
+    """
+    # checking the prefetch folder exists
+    check = prefetch_dir_exists()
+    if check is False:
+        raise FileNotFoundError("Prefetch folder has not been created")
+
+    # get all prefetch files
+    all_pfiles = _all_prefetch_files()
+
+    return all_pfiles
+
+
 # -----------------------------
 # Writer functions
 # -----------------------------
@@ -189,8 +208,23 @@ def _genome_dir_path_lookup() -> dict:
         accession number and genome path as key value pairs
     """
     all_profiles = defaultdict(None)
-    for gdb_file_path in genome_db_files():
+    for gdb_file_path in genome_dir_paths():
         genome_id = gdb_file_path.rsplit("/", 1)[-1]
         all_profiles[genome_id] = gdb_file_path
 
     return all_profiles
+
+
+def _all_prefetch_files() -> list[str]:
+    """Returns a list of files sra files inside the prefetch directory
+
+    Returns
+    -------
+    list[str]
+        list of paths pointing to prefetch files
+    """
+    prefetch_dir = vsp.prefetch_path()
+    query = f"{prefetch_dir}/*/*.sra"
+    all_files = glob.glob(query)
+
+    return all_files
