@@ -80,6 +80,13 @@ def load_geolocations() -> pd.DataFrame:
 
     return pd.read_csv(load_path)
 
+def load_dbat_vir_db() -> pd.DataFrame:
+    load_path = Path(vsp.db_path()) / "DBatVir_db.csv.gz"
+    if not load_path.is_file():
+        raise FileNotFoundError("Unable to find geolocations data")
+
+    return pd.read_csv(load_path)
+
 
 # -----------------------------
 # private functions (Format usage only)

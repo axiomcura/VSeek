@@ -100,6 +100,8 @@ def metagenome_path() -> str:
 
 
 
+
+
 # -----------------------------
 # Initializations of directories
 # -----------------------------
@@ -173,8 +175,8 @@ def init_fasta_dir() -> str:
     str
         path to fasta directory
     """
-    fasta_path_obj = Path(fasta_path())
-    fasta_path_obj.mkdir(exist_ok=True)
-    fasta_path_str = str(fasta_path_obj.absolute())
+    metagenome_path_obj = Path(metagenome_path())
+    metagenome_path_obj.mkdir(exist_ok=True)
+    fasta_path_str = str(metagenome_path_obj.absolute())
 
     return fasta_path_str

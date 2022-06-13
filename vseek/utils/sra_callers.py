@@ -13,9 +13,7 @@ from vseek.common.checks import dependency_check
 
 
 def download_fasta(
-    sra_ids: Union[str, list[str]],
-    threads=4,
-    verbose=False,
+    sra_ids: Union[str, list[str]], threads=4, seq_format="fasta"
 ) -> str:
     """Downloads fasta file to local machine with given sra ascension id.
     Contains 3 processes. Prefetching the data, downloading the required files
@@ -32,12 +30,8 @@ def download_fasta(
     threads : int, optional
         number of threads to use for downloading fastq files,
         by default 4
-    prefetch_dir : str, optional
-        directory for storing prefetched sra files,
-        by default "SRA_download"
-    fastq_dir : str, optional
-        directory name for saving fastq files
-        by default "fastq_files"
+    seq_format : str, optional
+        Type of sequence format to be download.
 
     Returns
     ------
@@ -62,8 +56,10 @@ def download_fasta(
     validate_prefetch_files(prefetched_files)
 
     # download sequence files
-    print("Downloading Fastq files")
-    fasterq_dump(prefetched_files, outdir=fasta_dir)
+    print(f"Downloading {seq_format} files")
+    fasterq_dump(
+        prefetched_files, outdir=fasta_dir, threads=threads, seq_format=seq_format
+    )
 
     return fasta_dir
 
