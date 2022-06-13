@@ -52,14 +52,33 @@ def load_bat_virus_data() -> pd.DataFrame:
     Raises
     ------
     FileNotFoundError
-        raise if the file is not found
+        raise if the file is not found in the database
     """
-    path = Path(vsp.db_path()) / "filtered_bat_virus.csv.gz"
-    if not path.is_file():
+    load_path = Path(vsp.db_path()) / "filtered_bat_virus.csv.gz"
+    if not load_path.is_file():
         raise FileNotFoundError("Unable to find viral bat database")
 
-    df = pd.read_csv(path)
-    return df
+    return pd.read_csv(load_path)
+
+
+def load_geolocations() -> pd.DataFrame:
+    """Loads country geo-locations as a pandas dataframe
+
+    Returns
+    -------
+    pd.DataFrame
+        geo locations
+
+    Raises
+    ------
+    FileNotFoundError
+        raised file is not found in the database
+    """
+    load_path = Path(vsp.db_path()) / "geolocations.csv.gz"
+    if not load_path.is_file():
+        raise FileNotFoundError("Unable to find geolocations data")
+
+    return pd.read_csv(load_path)
 
 
 # -----------------------------

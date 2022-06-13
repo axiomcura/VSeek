@@ -99,6 +99,7 @@ def metagenome_path() -> str:
     return str(fasta_dir_path.absolute())
 
 
+
 # -----------------------------
 # Initializations of directories
 # -----------------------------
