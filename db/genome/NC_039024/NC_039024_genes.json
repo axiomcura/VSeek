@@ -1,1 +1,34 @@
-{"NC_039024": {"NC_039024.1 (1865..3811)": {"name": "gag: gag protein", "annotation": [1865, 3811]}, "Proviral": {"name": "ID: 37620028: tas protein"}, "bet protein": {"annotation": [10065, 10967], "name": "10967): bet protein"}, "D1U23_gp3": {"annotation": [10065, 11811]}, "pol protein [Central cimpanzee simian foamy virus]": {"name": "Other Designations: env protein: env protein", "annotation": [7138, 10095]}}}
+{
+    "NC_039024": {
+        "NC_039024.1 (1865..3811)": {
+            "name": "gag: gag protein",
+            "annotation": [
+                1865,
+                3811
+            ]
+        },
+        "Proviral": {
+            "name": "ID: 37620028: tas protein"
+        },
+        "bet protein": {
+            "annotation": [
+                10065,
+                10967
+            ],
+            "name": "10967): bet protein"
+        },
+        "D1U23_gp3": {
+            "annotation": [
+                10065,
+                11811
+            ]
+        },
+        "pol protein [Central cimpanzee simian foamy virus]": {
+            "name": "Other Designations: env protein: env protein",
+            "annotation": [
+                7138,
+                10095
+            ]
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import glob
+import json
 from pathlib import Path
 import pandas as pd
 
@@ -6,18 +6,7 @@ import pandas as pd
 import vseek.common.vseek_paths as vsp
 from vseek.common.checks import check_fasta_format
 from vseek.common.errors import InvalidFileError
-
-# TODO: implement
-def load_profile() -> dict:
-    """Load viral genome profile
-
-    Returns
-    -------
-    dict
-        viral genome profile
-    """
-    pass
-
+from vseek.common.io_files import get_viral_genome_fasta_paths, get_genome_genes_paths
 
 def load_genome(file_path: str) -> tuple:
     """
@@ -41,6 +30,27 @@ def load_genome(file_path: str) -> tuple:
     return (header, sequence)
 
 
+def load_genes_metadata(file_path: str) -> dict:
+    """returns viral genes metadata as dictioanry
+
+    Parameters
+    ----------
+    file_path : str
+        file path pointing to genes metadata json file
+
+    Returns
+    -------
+    dict
+        genes meta data
+    """
+    if not Path(file_path).is_file:
+        raise FileNotFoundError("viral genes meta data not found")
+    with open(file_path, "r") as gene_file:
+        gene_metadata = json.load(gene_file)
+
+    return gene_metadata
+
+
 def load_bat_virus_data() -> pd.DataFrame:
     """Returns bat virus database
 
@@ -62,7 +72,7 @@ def load_bat_virus_data() -> pd.DataFrame:
 
 
 def load_geolocations() -> pd.DataFrame:
-    """Loads country geo-locations as a pandas dataframe
+    """Loads country geo-locations as a pandas DataFrame
 
     Returns
     -------
@@ -80,6 +90,7 @@ def load_geolocations() -> pd.DataFrame:
 
     return pd.read_csv(load_path)
 
+
 def load_dbat_vir_db() -> pd.DataFrame:
     load_path = Path(vsp.db_path()) / "DBatVir_db.csv.gz"
     if not load_path.is_file():
@@ -87,12 +98,44 @@ def load_dbat_vir_db() -> pd.DataFrame:
 
     return pd.read_csv(load_path)
 
+def load_viral_genes(accession: str) -> list[str]:
+    """Returns annotated viral gene sequences
+
+    accession : str
+        accession id
+
+    Returns
+    -------
+    list[str]
+        list of coding sequences
+    """
+    viral_genome_paths=get_viral_genome_fasta_paths(query=accession)
+    sel_viral_genome_path = viral_genome_paths[accession]
+    header, viral_genome =  load_genome(sel_viral_genome_path)
+
+    viral_genes_paths = get_genome_genes_paths(query=accession)
+    viral_genes_paths = viral_genes_paths[accession]
+    meta_data = load_genes_metadata(viral_genes_paths)
+
+    sequences = []
+    for id, gene_metadata in meta_data[accession].items():
+
+        # some genes are not annotated
+        try:
+            beg, end = tuple(gene_metadata["annotation"] )
+        except KeyError:
+            continue
+
+        annotated_sequence = viral_genome[beg:end+1]
+        sequences.append(annotated_sequence)
+
+    return sequences
 
 # -----------------------------
 # private functions (Format usage only)
 # -----------------------------
 def _read_fasta(fpath: str) -> str:
-    """Reads FASTA file and returns it's contens
+    """Reads FASTA file and returns it's contents
 
     Parameters
     ----------
@@ -111,7 +154,7 @@ def _read_fasta(fpath: str) -> str:
         contents = infile.read()
 
         # check if the contents
-        check_fasta_format(contents)
+        # check_fasta_format(contents)
 
     return contents
 

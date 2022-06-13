@@ -1,14 +1,20 @@
 {
     "cSpell.words": [
         "conts",
+        "dbat",
         "entrez",
         "entrezpy",
         "fasta",
         "fasterq",
+        "geolocations",
+        "infile",
+        "lenghts",
         "metagenome",
         "ncbi",
         "NCBI's",
+        "pfetch",
         "retmax",
-        "subdict"
+        "subdict",
+        "vseek"
     ]
 }

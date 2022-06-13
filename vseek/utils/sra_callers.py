@@ -13,7 +13,10 @@ from vseek.common.checks import dependency_check
 
 
 def download_fasta(
-    sra_ids: Union[str, list[str]], threads=4, seq_format="fasta"
+    sra_ids: Union[str, list[str]],
+    threads=4,
+    seq_format="fasta",
+    overwrite=False,
 ) -> str:
     """Downloads fasta file to local machine with given sra ascension id.
     Contains 3 processes. Prefetching the data, downloading the required files
@@ -31,7 +34,10 @@ def download_fasta(
         number of threads to use for downloading fastq files,
         by default 4
     seq_format : str, optional
-        Type of sequence format to be download.
+        Type of sequence format to be download. by default "fasta"
+    overwrite : bool, optional
+        Sequence files will be overwritten if set to True.
+        by default False
 
     Returns
     ------
@@ -58,7 +64,11 @@ def download_fasta(
     # download sequence files
     print(f"Downloading {seq_format} files")
     fasterq_dump(
-        prefetched_files, outdir=fasta_dir, threads=threads, seq_format=seq_format
+        prefetched_files,
+        outdir=fasta_dir,
+        threads=threads,
+        seq_format=seq_format,
+        overwrite=overwrite,
     )
 
     return fasta_dir
@@ -127,7 +137,11 @@ def validate_prefetch_files(prefetch_file: Union[str, list[str]]) -> None:
 
 
 def fasterq_dump(
-    prefetch_file: Union[str, list[str]], outdir: str, seq_format="fasta", threads=4
+    prefetch_file: Union[str, list[str]],
+    outdir: str,
+    seq_format="fasta",
+    threads=4,
+    overwrite=False,
 ) -> None:
     """Downloads sequence files ("Fasta" or "Fastq") using the fasterq-dump executable
 
@@ -141,6 +155,9 @@ def fasterq_dump(
         number of threads used to download files, by default 4
     seq_format : str
         file format output. supported formats = ["fastq", "fasta"]
+    overwrite : bool, optional
+        Sequence files will be re-downloaded and overwritten if set to True.
+        by default False
 
     Raises
     ------
@@ -160,6 +177,16 @@ def fasterq_dump(
 
     # downloading sequence files
     for prefetch_path in prefetch_file:
+
+        # checking if the file exists. If overwrite
+        name = prefetch_path.rsplit("/", 1)[-1].split(".")[0]
+        if overwrite is False:
+            path_obj = Path(vsp.metagenome_path()) / f"{name}.fasta"
+            check = path_obj.is_file()
+            if check is True:
+                print(f"{name}.fasta already exists... skipping")
+                continue
+
         if seq_format == "fastq":
             fasterq_cmd = f"{fasterq_prog} {prefetch_path} -e {threads} -O {outdir}"
             _call(fasterq_cmd)

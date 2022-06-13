@@ -99,14 +99,11 @@ def metagenome_path() -> str:
     return str(fasta_dir_path.absolute())
 
 
-
-
-
 # -----------------------------
 # Initializations of directories
 # -----------------------------
 def init_results_dir() -> str:
-    """Creates resutls directory if it does not exists.
+    """Creates results directory if it does not exists.
 
     Returns
     -------

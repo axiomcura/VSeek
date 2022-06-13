@@ -43,6 +43,7 @@ def dependency_check(prog: str) -> bool:
     return True
 
 
+# TODO: deprecation required no need to check format if I am flatting it
 def check_fasta_format(fasta_content: str) -> None:
     """Checks the integrity of the FASTA format
 

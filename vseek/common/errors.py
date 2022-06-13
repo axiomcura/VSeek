@@ -71,3 +71,4 @@ class SequenceFormatNotSupported(InvalidFormats):
     but it is not supported"""
 
     pass
+

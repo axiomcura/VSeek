@@ -43,7 +43,7 @@ def get_viral_genome_fasta_paths(query=None) -> dict:
     else:
         fasta_file_paths = _viral_genome_fasta_path_lookup()
         if not isinstance(query, list):
-            query = list(query)
+            query = query.split()
 
         result_query = defaultdict(None)
         for q in query:
@@ -72,7 +72,7 @@ def get_genome_genes_paths(query=None) -> dict:
     else:
         fasta_file_paths = _genes_path_lookup()
         if not isinstance(query, list):
-            query = list(query)
+            query = query.split()
 
         result_query = defaultdict(None)
         for q in query:
@@ -240,6 +240,7 @@ def _viral_genome_fasta_path_lookup() -> dict:
         fasta_file_path = glob.glob(query)[0]
         all_fasta_paths[genome_id] = fasta_file_path
 
+
     return all_fasta_paths
 
 
@@ -257,11 +258,11 @@ def _genes_path_lookup() -> dict:
     for genome_path in genome_db_paths:
         genome_id = genome_path.split("/")[-1]
         query = f"{genome_path}/*_genes.json"
-        fasta_file_path = glob.glob(query)
+        fasta_file_path = glob.glob(query)[0]
 
         if len(fasta_file_path) == 0:
             continue
-        all_genome_profile_paths[genome_id] = fasta_file_path[0]
+        all_genome_profile_paths[genome_id] = fasta_file_path
 
     return all_genome_profile_paths
 
@@ -301,5 +302,7 @@ def _all_metagenome_files():
     metagenome_dir = vsp.metagenome_path()
     query = f"{metagenome_dir}/*.fasta"
     all_files = glob.glob(query)
+    if len(all_files) == 1:
+        return all_files[0]
 
     return all_files
