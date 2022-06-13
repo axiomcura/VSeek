@@ -1,10 +1,14 @@
 {
     "cSpell.words": [
+        "conts",
         "entrez",
         "entrezpy",
         "fasta",
         "fasterq",
         "metagenome",
-        "NCBI's"
+        "ncbi",
+        "NCBI's",
+        "retmax",
+        "subdict"
     ]
 }

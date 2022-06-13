@@ -1,0 +1,81 @@
+{
+    "NC_001354": {
+        "1489284": {
+            "name": "ORF L2: hypothetical protein",
+            "annotation": [
+                3910,
+                5574
+            ]
+        },
+        "1489283": {
+            "name": "ORF L1: hypothetical protein",
+            "annotation": [
+                5336,
+                7087
+            ]
+        },
+        "1489281": {
+            "name": "ORF E6: hypothetical protein",
+            "annotation": [
+                102,
+                572
+            ]
+        },
+        "1489278": {
+            "name": "ORF E2: hypothetical protein",
+            "annotation": [
+                2728,
+                3891
+            ]
+        },
+        "1489277": {
+            "name": "ORF E1: hypothetical protein",
+            "annotation": [
+                951,
+                2795
+            ]
+        },
+        "1489287": {
+            "name": "ORF Z: hypothetical protein",
+            "annotation": [
+                5652,
+                5882
+            ]
+        },
+        "1489286": {
+            "name": "ORF Y: hypothetical protein",
+            "annotation": [
+                2832,
+                3050
+            ]
+        },
+        "1489285": {
+            "name": "ORF X: hypothetical protein",
+            "annotation": [
+                979,
+                1212
+            ]
+        },
+        "1489282": {
+            "name": "ORF E7: hypothetical protein",
+            "annotation": [
+                644,
+                988
+            ]
+        },
+        "1489280": {
+            "name": "ORF E5: hypothetical protein",
+            "annotation": [
+                3806,
+                4042
+            ]
+        },
+        "1489279": {
+            "name": "ORF E4: hypothetical protein",
+            "annotation": [
+                3341,
+                3646
+            ]
+        }
+    }
+}

@@ -1,5 +1,5 @@
 import glob
-
+from pathlib import Path
 import pandas as pd
 
 # vseek imports
@@ -40,6 +40,26 @@ def load_genome(file_path: str) -> tuple:
     header, sequence = _flatten_fasta_sequence(contents)
     return (header, sequence)
 
+
+def load_bat_virus_data() -> pd.DataFrame:
+    """Returns bat virus database
+
+    Returns
+    -------
+    pd.DataFrame
+        bat virus database
+
+    Raises
+    ------
+    FileNotFoundError
+        raise if the file is not found
+    """
+    path = Path(vsp.db_path()) / "filtered_bat_virus.csv.gz"
+    if not path.is_file():
+        raise FileNotFoundError("Unable to find viral bat database")
+
+    df = pd.read_csv(path)
+    return df
 
 
 # -----------------------------

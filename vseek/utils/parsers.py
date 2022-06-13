@@ -19,5 +19,15 @@ def parse_ncbi_viral_accessions(contents: str) -> tuple:
         data = line_cont.strip().replace("\n", "").replace("\t", "---").replace('"', '').split("---")
         all_data.append(data)
 
-    
+
     return (cols, all_data)
+
+
+def parse_ncbi_genes_response(contents: str) -> None:
+    """Parses ncbi's genes response
+
+    Parameters
+    ----------
+    contents : str
+        raw ncbi genes response
+    """
