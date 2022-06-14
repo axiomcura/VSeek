@@ -8,6 +8,7 @@ from vseek.common.checks import check_fasta_format
 from vseek.common.errors import InvalidFileError
 from vseek.common.io_files import get_viral_genome_fasta_paths, get_genome_genes_paths
 
+
 def load_genome(file_path: str) -> tuple:
     """
 
@@ -68,7 +69,7 @@ def load_bat_virus_data() -> pd.DataFrame:
     if not load_path.is_file():
         raise FileNotFoundError("Unable to find viral bat database")
 
-    return pd.read_csv(load_path)
+    return pd.read_csv(load_path).drop("Unnamed: 0", axis="columns")
 
 
 def load_geolocations() -> pd.DataFrame:
@@ -91,12 +92,35 @@ def load_geolocations() -> pd.DataFrame:
     return pd.read_csv(load_path)
 
 
+def load_iban_iso_codes() -> pd.DataFrame:
+    """Loads alpha iso 3 codes from IBAN Database
+
+    Returns
+    -------
+    pd.DataFrame
+        country and their alpha ios3 codes
+    """
+    load_path = Path(vsp.db_path()) / "iban_iso_codes.csv"
+    if not load_path.is_file():
+        print("Warning: ISO files does not exists. Downloading...")
+        df = pd.read_html("https://www.iban.com/country-codes")
+        if len(df) == 1:
+            df = df[0]
+        df = df[["Country", "Alpha-2 code", "Alpha-3 code"]]
+        df.columns = ["country", "iso_alpha", "alpha_iso3"]
+        df.to_csv(load_path, index=False)
+        return df
+    else:
+        return pd.read_csv(load_path)
+
+
 def load_dbat_vir_db() -> pd.DataFrame:
     load_path = Path(vsp.db_path()) / "DBatVir_db.csv.gz"
     if not load_path.is_file():
         raise FileNotFoundError("Unable to find geolocations data")
 
     return pd.read_csv(load_path)
+
 
 def load_viral_genes(accession: str) -> list[str]:
     """Returns annotated viral gene sequences
@@ -109,9 +133,9 @@ def load_viral_genes(accession: str) -> list[str]:
     list[str]
         list of coding sequences
     """
-    viral_genome_paths=get_viral_genome_fasta_paths(query=accession)
+    viral_genome_paths = get_viral_genome_fasta_paths(query=accession)
     sel_viral_genome_path = viral_genome_paths[accession]
-    header, viral_genome =  load_genome(sel_viral_genome_path)
+    header, viral_genome = load_genome(sel_viral_genome_path)
 
     viral_genes_paths = get_genome_genes_paths(query=accession)
     viral_genes_paths = viral_genes_paths[accession]
@@ -122,14 +146,15 @@ def load_viral_genes(accession: str) -> list[str]:
 
         # some genes are not annotated
         try:
-            beg, end = tuple(gene_metadata["annotation"] )
+            beg, end = tuple(gene_metadata["annotation"])
         except KeyError:
             continue
 
-        annotated_sequence = viral_genome[beg:end+1]
+        annotated_sequence = viral_genome[beg : end + 1]
         sequences.append(annotated_sequence)
 
     return sequences
+
 
 # -----------------------------
 # private functions (Format usage only)

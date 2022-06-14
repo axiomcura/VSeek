@@ -14,3 +14,6 @@ dependencies:
   - conda-forge::lxml>=4.9.0
   - conda-forge::selenium>=4.2.0
   - conda-forge::webdriver-manager>=3.7.0
+  - conda-forge::ipykernel>=6.13.0
+  - conda-forge::dataframe_image>=0.1.0
+  - conda-forge::python-kaleido>=2.0.0
