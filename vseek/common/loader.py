@@ -69,7 +69,7 @@ def load_bat_virus_data() -> pd.DataFrame:
     if not load_path.is_file():
         raise FileNotFoundError("Unable to find viral bat database")
 
-    return pd.read_csv(load_path).drop("Unnamed: 0", axis="columns")
+    return pd.read_csv(load_path)#.drop("Unnamed: 0", axis="columns")
 
 
 def load_geolocations() -> pd.DataFrame:

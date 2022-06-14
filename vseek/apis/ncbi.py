@@ -52,7 +52,7 @@ def get_all_viral_accessions() -> pd.DataFrame:
         return pd.read_csv(file_path)
 
 
-def get_viral_genomes(email: str, accessions: Union[str, list], buffer=0.5) -> dict:
+def get_viral_genomes(email: str, accessions: Union[str, list], buffer=0.5) -> str:
     """Downloads all viral gneomes and generates a viral genome profiles
 
     Parameters
@@ -69,7 +69,7 @@ def get_viral_genomes(email: str, accessions: Union[str, list], buffer=0.5) -> d
     Return
     ------
     None
-        Generates a genome database under ./db
+        returns a path were the saved genomes are
     """
     genome_db = vsp.init_genome_db_path()
     print("\nBuilding genome database ...")
@@ -155,27 +155,45 @@ def get_viral_genes(email: str, accession: Union[str, list[str]], buffer=0.5):
                 save_genes(accession=acc_id, contents=viral_genome_genes)
 
 
-def generate_viral_genome_profile(genome_db: str) -> dict:
-    """Generates a json file that profiles
+def get_taxa_id(email: str, accession: str, buffer=0.5) -> str:
+    """returns the taxon id with associated accession
 
     Parameters
     ----------
-    genome_db : str
-        path to genome database
+    email : Union[str, list[str]]
+        valid email address require to send requests to the NCBI
+        database using entrez.
+    accession : Union[str, list]
+        string or list of accession numbers
+    buffer : int, float
+        Buffer time added after submitting a request in seconds
+        Default = 0.5
 
     Returns
     -------
-    dict
-        viral genome profiles. Also written in JSON format in the genome database
+    str
+        taxon id
     """
-    # gene_positions = _call_entrez_viral_genes(email=email, accession=acc_id)
-    pass
+    meta_data = _call_entrez_viral_genome(
+        email=email, accession=accession, buffer=buffer, return_type="txt"
+    )
+    data = meta_data.splitlines()
+
+    taxon_id = ""
+    for idx, line in enumerate(data):
+        if 'db "taxon"' in line:
+            t_id = data[idx+1].strip().split()[-1]
+            taxon_id += t_id
+            break
+    return taxon_id
 
 
 # ------------------------------
 # private caller functions
 # ------------------------------
-def _call_entrez_viral_genome(email: str, accession: str, buffer=0.3) -> str:
+def _call_entrez_viral_genome(
+    email: str, accession: str, buffer=0.3, return_type="fasta"
+) -> str:
     """Submits request to NCBI viral genome database via entrez portal.
 
     Parameters
@@ -193,6 +211,11 @@ def _call_entrez_viral_genome(email: str, accession: str, buffer=0.3) -> str:
     str
         Genome fasta
     """
+    # supported return types
+    r_types = ["fasta", "txt"]
+    if return_type not in r_types:
+        raise ValueError(f"Unsupported return type. Supported {r_types}")
+
     # creating a reference of the default stdout
     old_stdout = sys.stdout
 
@@ -212,7 +235,7 @@ def _call_entrez_viral_genome(email: str, accession: str, buffer=0.3) -> str:
         }
     )
     fid = fetch_genome.add_fetch(
-        {"retmax": 10, "retmode": "text", "rettype": "fasta"}, dependency=sid
+        {"retmax": 10, "retmode": "text", "rettype": f"{return_type}"}, dependency=sid
     )
     c.run(fetch_genome)
     sleep(buffer)
