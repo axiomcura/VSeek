@@ -30,7 +30,6 @@ def dynamic_hamming(read: str, reference: str):
             # score it
             score = hamming_distance_score(read=read, reference=ref_piece)
             if score == 0.0:
-                print("Perfect match found")
                 scaled_score = 1.0 - score
                 top_score = scaled_score
                 break
@@ -51,6 +50,7 @@ def dynamic_hamming(read: str, reference: str):
         start_idx = 0
         end_idx = len(small_gene)
 
+        top_score = 0
         while end_idx - 1 < len(large_read):
             ref_piece = large_read[start_idx:end_idx]
 
@@ -66,12 +66,12 @@ def dynamic_hamming(read: str, reference: str):
             end_idx += 1
             scores.append(score)
 
-    if isinstance(scores, float):
+    if top_score == 1.0:
+        return 1.0 - top_score
+    elif isinstance(scores, float):
         return 1.0 - scores
     elif len(scores) > 0:
         return 1.0 - min(scores)
-    else:
-        return 0.0
 
 
 def hamming_distance_score(read: str, reference: str):

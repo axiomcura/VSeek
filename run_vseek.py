@@ -141,7 +141,7 @@ if __name__ == "__main__":
         )
         # parameters
         counts_save_path = (
-            Path(results_path) / f"{args.accession}_viral_composition_counts.josn"
+            Path(results_path) / f"{args.accession}_viral_composition_counts.json"
         )
         all_accessions = list(vfiles.viral_genome_paths().keys())
         metagenome_path = vfiles.get_meta_genomes_paths()

@@ -36,7 +36,7 @@ def db_path() -> str:
         path to db directory
     """
     root = Path(root_path())
-    database_path = str(root / "db")
+    database_path = str((root / "db").absolute())
 
     return database_path
 
@@ -50,7 +50,7 @@ def results_dir() -> str:
         _description_
     """
     root = Path(root_path())
-    results_path = str(root / "results")
+    results_path = str((root / "results").absolute())
 
     return results_path
 
