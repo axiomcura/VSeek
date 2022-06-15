@@ -212,7 +212,7 @@ def load_viral_counts(count_path=None) -> dict:
 
             return viral_counts
     else:
-        count_path_obj = Path(vsp.init_results_dir()) / "viral_composition_counts.josn"
+        count_path_obj = Path(vsp.init_results_dir()) / "viral_composition_counts.json"
         count_path_str = str(count_path_obj.absolute())
         with open(count_path_str, "r") as gene_file:
             viral_counts = json.load(gene_file)

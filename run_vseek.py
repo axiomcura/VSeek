@@ -42,14 +42,16 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Command line program for characterizing bat viruses"
     )
-    parser.add_argument("-i", "--input", type=list, nargs="+", help="SRR id")
+    parser.add_argument(
+        "-i", "--input", type=list, required=True, nargs="+", help="SRR id"
+    )
     parser.add_argument(
         "-e",
         "--email",
         default=None,
-        required=False,
         type=str,
-        help="Valid Email address to send requests to NCBI API",
+        required=False,
+        help="Valid Email address to send requests to NCBI API. Note required if --test_run is flagged",
     )
     parser.add_argument(
         "-t",
@@ -62,7 +64,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-rt",
         "--rel_threshold",
-        default=0.40,
+        default=1.0,
         type=float,
         required=False,
         help="relative abundance cutoff. The smaller the percentage, the noisier the data",
@@ -71,13 +73,25 @@ if __name__ == "__main__":
         "--test_run",
         default=False,
         action="store_true",
+        required=False,
         help="Conducts a test run without API calls and skips discovery step",
+    )
+    parser.add_argument(
+        "--viral_counts",
+        default=None,
+        type=str,
+        required=False,
+        help="JSON file containing viral counts. Skips all downloading files",
     )
     args = parser.parse_args()
 
     # type checking
     if len(args.input) > 1:
         raise ValueError("Only 1 accession id can be provided")
+    if args.threshold > 1.0 or args.threshold <= 0:
+        raise ValueError("Similarity threshold must be bewtween 0 <= x > 1.0")
+    if args.rel_threshold > 100.0 or args.rel_threshold < 0:
+        raise ValueError("Similarity threshold must be bewtween 0.0 < x > 100.0")
 
     # -----------------------
     # step 0. setup and data collection
@@ -91,18 +105,15 @@ if __name__ == "__main__":
     profile_dir = vsp.init_profile_dir()
     string_db_dir = vsp.init_string_dir()
 
-    # downloads SRR meta genome
-    download_fasta()
-
     # loading all datasets, if it doesn't exists, it will download it
     if args.email is not None and args.test_run is False:
         print("Downloading all the datasets. Might take a while")
+        download_fasta()
         get_viral_genomes()  # downloads all known viral genomes
         get_viral_genes(
             email=args.email, accession=args.accession
         )  # download viral genes with given genome
 
-        viral_genomes = get_viral_genomes()
         viral_genes = vloader.load_viral_genes()
         meta_genome_paths = vfiles.get_meta_genomes_paths()
         ppi_df = vloader.load_human_ppi()  # loads human-viral database
@@ -116,8 +127,6 @@ if __name__ == "__main__":
         ncbi_virus_data = vloader.load_bat_virus_data()
         geolocations_df = vloader.load_geolocations()
         genome_paths = vfiles.get_viral_genome_fasta_paths()
-        viral_genes = vloader.load_viral_genes()
-        viral_genomes = get_viral_genomes()
         meta_genome_paths = vfiles.get_meta_genomes_paths()
         ppi_df = vloader.load_human_ppi()  # loads human-viral database
         viral_accession_df = get_all_viral_accessions()  # downloading viral accessions
@@ -173,12 +182,11 @@ if __name__ == "__main__":
             top_score_acc_ids = max(read_score, key=read_score.get)
             counts[top_score_acc_ids] += 1
 
-        viral_counts = counts
+        viral_count_data = vloader.load_viral_counts(counts_save_path)
     else:
         # NOTE: Place example counts here
-        counts_save_path = Path(results_path) / "viral_composition_counts.json"
-        example_viral_counts = Path()
-        viral_counts = vloader.load_viral_counts()
+        exmaple_counts_save_path = Path(database_path) / "viral_composition_counts.json"
+        viral_count_data = vloader.load_viral_counts(exmaple_counts_save_path)
 
     # -----------------------
     # step 2. Profiling
@@ -187,8 +195,8 @@ if __name__ == "__main__":
     geolocations_df.columns = ["iso_alpha", "country"]
     iso_codes_df = vloader.load_iban_iso_codes()
 
-    with open("./viral_composition_counts.json", "r") as infile:
-        viral_count_data = json.load(infile)
+    # with open(viral_counts, "r") as infile:
+    #     viral_count_data = json.load(infile)
 
     viral_count_df = pd.DataFrame.from_dict(
         data=viral_count_data, orient="index"
@@ -215,12 +223,12 @@ if __name__ == "__main__":
 
     # saving table as an image
     save_path_identified_virus_table_img = str(
-        Path(results_path) / "identified_virus_table.png"
-    ).absolute()
+        (Path(results_path) / "identified_virus_table.png").absolute()
+    )
 
     save_path_identified_virus_table = str(
-        Path(results_path) / "identified_virus.csv"
-    ).absolute()
+        (Path(results_path) / "identified_virus.csv").absolute()
+    )
     identified_virus_df.to_csv(save_path_identified_virus_table, index=False)  # profile
 
     # PLOT 2: GEO Plot
@@ -272,36 +280,49 @@ if __name__ == "__main__":
     all_bats_country_df = all_bats_country_df.merge(alpha_iso_codes, on="iso_alpha")
 
     save_path_bats_country = Path(results_path) / "other_bats_country.csv"
-    all_bats_country_df.to_csv(save_path_bats_country, index=False) # geo profile
-
+    all_bats_country_df.to_csv(save_path_bats_country, index=False)  # geo profile
 
     # ASSOCIATED DISEASE PROFILE
     viral_disease_save_path = Path(results_path) / "viral_disease_profile.csv"
     ident_viral_acc = identified_virus_df.index.tolist()
-    viral_info = ncbi_virus_data.loc[ncbi_virus_data["Representative"].isin(ident_viral_acc)]
+    viral_info = ncbi_virus_data.loc[
+        ncbi_virus_data["Representative"].isin(ident_viral_acc)
+    ]
     viral_info.columns = ["accession"] + viral_info.columns.values.tolist()[1:]
 
     # merging relative counts and relative abundance
     viral_counts_df = identified_virus_df.reset_index()[["accession", "rel_abundance"]]
-    viral_summary_df = viral_info.merge(viral_counts_df, on="accession").sort_values("rel_abundance", ascending=False)
-    viral_summary_df.columns = ['accession', 'host', 'disease_doc', 'segment_name', 'family', 'genus', 'taxon_id', 'rel_abundance']
-    viral_summary_df.to_csv(viral_disease_save_path) # virus-disease profile
-
+    viral_summary_df = viral_info.merge(viral_counts_df, on="accession").sort_values(
+        "rel_abundance", ascending=False
+    )
+    viral_summary_df.columns = [
+        "accession",
+        "host",
+        "disease_doc",
+        "segment_name",
+        "family",
+        "genus",
+        "taxon_id",
+        "rel_abundance",
+    ]
+    viral_summary_df.to_csv(viral_disease_save_path)  # virus-disease profile
 
     # GENERATING AN INTERACTION PROFILE
     # filter the ppi data with the taxon id found in the viral_summary df
     found_virus_taxon_id = viral_summary_df["taxon_id"].unique().tolist()
     ppi_df = ppi_df.loc[ppi_df["species_2"].isin(found_virus_taxon_id)]
-    vloader.save_interaction_profiles(ppi_df)
+    vfiles.save_interaction_profiles(ppi_df)
 
     # -----------------------
     # step 3. Plotting
     # ----------------------
-    viral_comp_save_path = Path(results_path) / "viral_characterizations_piechart_plot.png"
+    viral_comp_save_path = (
+        Path(results_path) / "viral_characterizations_piechart_plot.png"
+    )
     plot_viral_composition(selected_counts, save_path=viral_comp_save_path)
     dfi.export(identified_virus_df, save_path_identified_virus_table_img)
 
-    save_path_geo_plot = Path(results_path) / "geo_plot.png"
+    save_path_geo_plot = str((Path(results_path) / "geo_plot.png").absolute())
     bat_country_geo_plot(all_bats_country_df, save_path=save_path_geo_plot)
 
     print("process compelte")
