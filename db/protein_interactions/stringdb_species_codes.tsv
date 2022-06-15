@@ -1,0 +1,233 @@
+taxon_id	string_type	string_name_compact	official_name_ncbi
+3702	core	Arabidopsis thaliana	Arabidopsis thaliana
+3711	core	Brassica rapa	Brassica rapa
+3847	core	Glycine max	Glycine max
+4081	core	Solanum lycopersicum	Solanum lycopersicum
+4113	core	Solanum tuberosum	Solanum tuberosum
+4513	core	Hordeum vulgare	Hordeum vulgare
+4538	periphery	Oryza glaberrima	Oryza glaberrima
+4555	core	Setaria italica	Setaria italica
+4558	periphery	Sorghum bicolor	Sorghum bicolor
+4577	core	Zea mays	Zea mays
+4896	core	Schizosaccharomyces pombe	Schizosaccharomyces pombe
+4932	core	Saccharomyces cerevisiae	Saccharomyces cerevisiae
+5664	periphery	Leishmania major	Leishmania major
+5722	core	Trichomonas vaginalis	Trichomonas vaginalis
+6239	core	Caenorhabditis elegans	Caenorhabditis elegans
+7159	periphery	Aedes aegypti	Aedes aegypti
+7227	core	Drosophila melanogaster	Drosophila melanogaster
+7244	periphery	Drosophila virilis	Drosophila virilis
+7460	core	Apis mellifera	Apis mellifera
+7955	periphery	Danio rerio	Danio rerio
+8049	core	Gadus morhua	Gadus morhua
+8364	core	Xenopus Silurana	Xenopus (Silurana) tropicalis
+9031	core	Gallus gallus	Gallus gallus
+9103	periphery	Meleagris gallopavo	Meleagris gallopavo
+9361	periphery	Dasypus novemcinctus	Dasypus novemcinctus
+9483	core	Callithrix jacchus	Callithrix jacchus
+9544	periphery	Macaca mulatta	Macaca mulatta
+9598	periphery	Pan troglodytes	Pan troglodytes
+9601	periphery	Pongo abelii	Pongo abelii
+9606	core	Homo sapiens	Homo sapiens
+9615	core	Canis lupus	Canis lupus familiaris
+9669	core	Mustela putorius	Mustela putorius furo
+9685	periphery	Felis catus	Felis catus
+9785	core	Loxodonta africana	Loxodonta africana
+9796	periphery	Equus caballus	Equus caballus
+9823	periphery	Sus scrofa	Sus scrofa
+9913	periphery	Bos taurus	Bos taurus
+9986	periphery	Oryctolagus cuniculus	Oryctolagus cuniculus
+10090	core	Mus musculus	Mus musculus
+10116	periphery	Rattus norvegicus	Rattus norvegicus
+10141	periphery	Cavia porcellus	Cavia porcellus
+10245	core	Vaccinia virus (strain Western Reserve)	Vaccinia virus (strain Western Reserve)
+10255	core	Variola virus (isolate Human/India/Ind3/1967)	Variola virus (isolate Human/India/Ind3/1967)
+10258	core	Orf virus (strain Goat/Texas/SA00/2000)	Orf virus (strain Goat/Texas/SA00/2000)
+10261	core	Fowlpox virus (strain NVSL)	Fowlpox virus (strain NVSL)
+10271	core	Rabbit fibroma virus (strain Kasza)	Rabbit fibroma virus (strain Kasza)
+10273	core	Myxoma virus (strain Lausanne)	Myxoma virus (strain Lausanne)
+10276	core	Swinepox virus (strain Swine/Nebraska/17077-99/1999)	Swinepox virus (strain Swine/Nebraska/17077-99/1999)
+10279	core	Molluscum contagiosum virus subtype 1	Molluscum contagiosum virus subtype 1
+10298	core	Human herpesvirus 1 (strain 17)	Human herpesvirus 1 (strain 17)
+10310	core	Human herpesvirus 2 (strain HG52)	Human herpesvirus 2 (strain HG52)
+10335	core	Varicella-zoster virus (strain Dumas)	Varicella-zoster virus (strain Dumas)
+10359	core	Human cytomegalovirus (strain Merlin)	Human cytomegalovirus (strain Merlin)
+10366	core	Murid herpesvirus 1 (strain Smith)	Murid herpesvirus 1 (strain Smith)
+10376	core	Epstein-Barr virus (strain B95-8)	Epstein-Barr virus (strain B95-8)
+10381	core	Saimiriine herpesvirus 2 (strain 11)	Saimiriine herpesvirus 2 (strain 11)
+10390	core	Gallid herpesvirus 2 (strain Chicken/Md5/ATCC VR-987)	Gallid herpesvirus 2 (strain Chicken/Md5/ATCC VR-987)
+10407	core	Hepatitis B virus genotype C subtype ayr (isolate Human/Japan/Okamoto/-)	Hepatitis B virus genotype C subtype ayr (isolate Human/Japan/Okamoto/-)
+10493	core	Frog virus 3 (isolate Goorha)	Frog virus 3 (isolate Goorha)
+10497	core	African swine fever virus (strain Badajoz 1971 Vero-adapted)	African swine fever virus (strain Badajoz 1971 Vero-adapted)
+10506	core	Paramecium bursaria Chlorella virus 1	Paramecium bursaria Chlorella virus 1
+10623	core	Cottontail rabbit papillomavirus (strain Kansas)	Cottontail rabbit papillomavirus (strain Kansas)
+10633	core	Simian virus 40	Simian virus 40
+10658	core	Enterobacteria phage PRD1	Enterobacteria phage PRD1
+10661	core	Pseudoalteromonas phage PM2	Pseudoalteromonas phage PM2
+10677	core	Enterobacteria phage Mu	Enterobacteria phage Mu
+10678	core	Enterobacteria phage P1	Enterobacteria phage P1
+10679	core	Enterobacteria phage P2	Enterobacteria phage P2
+10710	core	Enterobacteria phage lambda	Enterobacteria phage lambda
+10719	core	Streptomyces phage phiC31	Streptomyces phage phiC31
+10754	core	Enterobacteria phage P22	Enterobacteria phage P22
+10756	core	Bacillus phage phi29	Bacillus phage phi29
+10760	core	Enterobacteria phage T7	Enterobacteria phage T7
+10870	core	Enterobacteria phage M13	Enterobacteria phage M13
+10879	core	Pseudomonas phage phi6	Pseudomonas phage phi6
+11033	core	Semliki forest virus	Semliki forest virus
+11034	core	Sindbis virus	Sindbis virus
+11047	core	Equine arteritis virus (strain Bucyrus)	Equine arteritis virus (strain Bucyrus)
+11053	core	Dengue virus type 1 (strain Nauru/West Pac/1974)	Dengue virus type 1 (strain Nauru/West Pac/1974)
+11060	core	Dengue virus type 2 (strain Jamaica/1409/1983)	Dengue virus type 2 (strain Jamaica/1409/1983)
+11069	core	Dengue virus type 3 (strain Philippines/H87/1956)	Dengue virus type 3 (strain Philippines/H87/1956)
+11070	core	Dengue virus type 4 (strain Dominica/814669/1981)	Dengue virus type 4 (strain Dominica/814669/1981)
+11072	core	Japanese encephalitis virus (strain SA(v))	Japanese encephalitis virus (strain SA(v))
+11082	core	West Nile virus	West Nile virus
+11089	core	Yellow fever virus (strain 17D vaccine)	Yellow fever virus (strain 17D vaccine)
+11099	core	Bovine viral diarrhea virus (isolate NADL)	Bovine viral diarrhea virus (isolate NADL)
+11103	core	Hepatitis C virus genotype 1a (isolate H)	Hepatitis C virus genotype 1a (isolate H)
+11137	core	Human coronavirus 229E	Human coronavirus 229E
+11161	core	Mumps virus (strain Miyahara vaccine)	Mumps virus (strain Miyahara vaccine)
+11176	core	Newcastle disease virus (strain Chicken/United States/B1/48)	Newcastle disease virus (strain Chicken/United States/B1/48)
+11191	core	Sendai virus (strain Ohita)	Sendai virus (strain Ohita)
+11234	core	Measles virus (strain Ichinose-B95a)	Measles virus (strain Ichinose-B95a)
+11250	core	Human respiratory syncytial virus B (strain B1)	Human respiratory syncytial virus B (strain B1)
+11269	core	Marburg virus (strain Kenya/Musoke/1980)	Marburg virus (strain Kenya/Musoke/1980)
+11277	core	Vesicular stomatitis Indiana virus (strain San Juan)	Vesicular stomatitis Indiana virus (strain San Juan)
+11290	core	Infectious hematopoietic necrosis virus (strain WRAC)	Infectious hematopoietic necrosis virus (strain WRAC)
+11292	core	Rabies virus (strain Pasteur vaccins / PV)	Rabies virus (strain Pasteur vaccins / PV)
+11303	core	Bovine ephemeral fever virus (strain BB7721)	Bovine ephemeral fever virus (strain BB7721)
+11320	core	Influenza A virus (strain A/Puerto Rico/8/1934 H1N1)	Influenza A virus (strain A/Puerto Rico/8/1934 H1N1)
+11520	core	Influenza B virus (strain B/Lee/1940)	Influenza B virus (strain B/Lee/1940)
+11588	core	Rift valley fever virus (strain ZH-548 M12)	Rift valley fever virus (strain ZH-548 M12)
+11599	core	Hantaan virus (strain 76-118)	Hantaan virus (strain 76-118)
+11613	core	Tomato spotted wilt virus (strain Brazilian Br-01)	Tomato spotted wilt virus (strain Brazilian Br-01)
+11620	core	Lassa virus (strain Mouse/Sierra Leone/Josiah/1976)	Lassa virus (strain Mouse/Sierra Leone/Josiah/1976)
+11623	core	Lymphocytic choriomeningitis virus (strain Armstrong)	Lymphocytic choriomeningitis virus (strain Armstrong)
+11642	core	Simian foamy virus (isolate chimpanzee)	Simian foamy virus (isolate chimpanzee)
+11676	core	Human immunodeficiency virus type 1 group M subtype B (isolate HXB2)	Human immunodeficiency virus type 1 group M subtype B (isolate HXB2)
+11709	core	Human immunodeficiency virus type 2 subtype A (isolate BEN)	Human immunodeficiency virus type 2 subtype A (isolate BEN)
+11723	core	Simian immunodeficiency virus (isolate Mm142-83)	Simian immunodeficiency virus (isolate Mm142-83)
+11786	core	Moloney murine leukemia virus (isolate Shinnick)	Moloney murine leukemia virus (isolate Shinnick)
+11886	core	Avian leukosis virus RSA	Avian leukosis virus RSA
+11976	core	Rabbit hemorrhagic disease virus (strain Rabbit/Germany/FRG/1989)	Rabbit hemorrhagic disease virus (strain Rabbit/Germany/FRG/1989)
+11978	core	Feline calicivirus (strain Cat/United States/Urbana/1960)	Feline calicivirus (strain Cat/United States/Urbana/1960)
+11983	core	Norwalk virus (strain GI/Human/United States/Norwalk/1968)	Norwalk virus (strain GI/Human/United States/Norwalk/1968)
+12092	core	Human hepatitis A virus genotype IB (isolate HM175)	Human hepatitis A virus genotype IB (isolate HM175)
+12104	core	Encephalomyocarditis virus (strain Rueckert)	Encephalomyocarditis virus (strain Rueckert)
+12110	core	Foot-and-mouth disease virus (isolate Swine/Taiwan/OTai/1997 serotype O)	Foot-and-mouth disease virus (isolate Swine/Taiwan/OTai/1997 serotype O)
+12161	core	Beet yellows virus (isolate Ukraine)	Beet yellows virus (isolate Ukraine)
+12183	core	Potato virus X (strain X3)	Potato virus X (strain X3)
+12216	core	Potato virus Y (strain N)	Potato virus Y (strain N)
+12242	core	Tobacco mosaic virus (strain vulgare)	Tobacco mosaic virus (strain vulgare)
+12264	core	Cowpea mosaic virus (strain SB)	Cowpea mosaic virus (strain SB)
+12280	core	Tomato ringspot virus (isolate raspberry)	Tomato ringspot virus (isolate raspberry)
+12302	core	Brome mosaic virus	Brome mosaic virus
+12305	core	Cucumber mosaic virus (strain FNY)	Cucumber mosaic virus (strain FNY)
+12317	core	Tobacco streak virus (strain WC)	Tobacco streak virus (strain WC)
+12321	core	Alfalfa mosaic virus (strain 425 / isolate Leiden)	Alfalfa mosaic virus (strain 425 / isolate Leiden)
+12327	core	Barley stripe mosaic virus	Barley stripe mosaic virus
+12355	core	Enterobacteria phage T1	Enterobacteria phage T1
+12455	core	Borna disease virus (strain V)	Borna disease virus (strain V)
+12461	core	Hepatitis E virus genotype 1 (isolate Human/China/HeBei/1987)	Hepatitis E virus genotype 1 (isolate Human/China/HeBei/1987)
+12475	core	Hepatitis delta virus genotype I (isolate D380)	Hepatitis delta virus genotype I (isolate D380)
+12538	core	Mokola virus (MOKV)	Mokola virus (MOKV)
+12657	core	Equine herpesvirus 2 (strain 86/87)	Equine herpesvirus 2 (strain 86/87)
+12777	core	Parsnip yellow fleck virus (isolate P-121)	Parsnip yellow fleck virus (isolate P-121)
+13735	core	Pelodiscus sinensis	Pelodiscus sinensis
+28289	core	Cydia pomonella granulosis virus (isolate Mexico/1963)	Cydia pomonella granulosis virus (isolate Mexico/1963)
+28321	core	Amsacta moorei entomopoxvirus	Amsacta moorei entomopoxvirus
+28377	periphery	Anolis carolinensis	Anolis carolinensis
+28875	core	Rotavirus A (isolate Monkey/South Africa/SA11-H96/1958 G3-P5B[2]-I2-R2-C5-M5-A5-N5-T5-E2-H5) (RV-A)	Rotavirus A (isolate Monkey/South Africa/SA11-H96/1958 G3-P5B[2]-I2-R2-C5-M5-A5-N5-T5-E2-H5) (RV-A)
+29760	periphery	Vitis vinifera	Vitis vinifera
+32603	core	Human herpesvirus 6A (strain Uganda-1102)	Human herpesvirus 6A (strain Uganda-1102)
+32604	core	Human herpesvirus 6B (strain Z29)	Human herpesvirus 6B (strain Z29)
+33773	core	Olive latent virus 2 (isolate Italy)	Olive latent virus 2 (isolate Italy)
+35252	core	Alcelaphine herpesvirus 1 (strain C500)	Alcelaphine herpesvirus 1 (strain C500)
+35287	core	Rice tungro spherical virus (strain A)	Rice tungro spherical virus (strain A)
+35304	core	Bunyamwera virus	Bunyamwera virus
+35305	core	Bunyavirus La Crosse (isolate Human/United States/L78/1978)	Bunyavirus La Crosse (isolate Human/United States/L78/1978)
+36427	core	Rotavirus C (isolate Human/United Kingdom/Bristol/1989)	Rotavirus C (isolate Human/United Kingdom/Bristol/1989)
+37124	core	Chikungunya virus (strain S27-African prototype)	Chikungunya virus (strain S27-African prototype)
+37128	core	Potato mop-top virus (isolate Potato/Sweden/Sw)	Potato mop-top virus (isolate Potato/Sweden/Sw)
+37296	core	Human herpesvirus 8 type P (isolate GK18)	Human herpesvirus 8 type P (isolate GK18)
+37347	periphery	Tupaia belangeri	Tupaia belangeri
+38525	core	Avian metapneumovirus (isolate Canada goose/Minnesota/15a/2001)	Avian metapneumovirus (isolate Canada goose/Minnesota/15a/2001)
+38804	core	Yaba monkey tumor virus (strain VR587)	Yaba monkey tumor virus (strain VR587)
+39947	core	Oryza sativa Japonica	Oryza sativa Japonica Group
+40051	core	Bluetongue virus 10 (isolate USA)	Bluetongue virus 10 (isolate USA)
+40631	core	Enterobacteria phage N15	Enterobacteria phage N15
+47416	core	Satsuma dwarf virus (isolate Satsuma mandarin/Japan/S-58/1977)	Satsuma dwarf virus (isolate Satsuma mandarin/Japan/S-58/1977)
+50294	core	Psittacid herpesvirus 1 (isolate Amazon parrot/-/97-0001/1997)	Psittacid herpesvirus 1 (isolate Amazon parrot/-/97-0001/1997)
+50817	core	Broad bean wilt virus 1 (strain Spinach/United States/ATCC PV-132/1963)	Broad bean wilt virus 1 (strain Spinach/United States/ATCC PV-132/1963)
+57482	core	European bat lyssavirus 1 (strain Bat/Germany/RV9/1968)	European bat lyssavirus 1 (strain Bat/Germany/RV9/1968)
+63330	core	Hendra virus (isolate Horse/Autralia/Hendra/1994)	Hendra virus (isolate Horse/Autralia/Hendra/1994)
+70796	core	Avian encephalomyelitis virus (strain Calnek vaccine)	Avian encephalomyelitis virus (strain Calnek vaccine)
+90961	core	Australian bat lyssavirus (isolate Bat/AUS/1996)	Australian bat lyssavirus (isolate Bat/AUS/1996)
+113370	core	Spodoptera frugiperda ascovirus 1a (SfAV-1a)	Spodoptera frugiperda ascovirus 1a (SfAV-1a)
+116056	core	Pelargonium zonate spot virus (isolate Tomato/Italy/1982)	Pelargonium zonate spot virus (isolate Tomato/Italy/1982)
+118140	core	Porcine teschovirus 1 (isolate Pig/United Kingdom/F65/1967)	Porcine teschovirus 1 (isolate Pig/United Kingdom/F65/1967)
+129951	core	Human adenovirus C serotype 2	Human adenovirus C serotype 2
+132908	core	Pteropus vampyrus	Pteropus vampyrus
+133704	core	Porcine circovirus 1 (isolate China)	Porcine circovirus 1 (isolate China)
+138950	core	Poliovirus type 1 (strain Mahoney)	Poliovirus type 1 (strain Mahoney)
+147711	core	Human rhinovirus A serotype 89 (strain 41467-Gallo)	Human rhinovirus A serotype 89 (strain 41467-Gallo)
+155864	periphery	Escherichia coli O157H7	Escherichia coli O157:H7 str. EDL933
+162145	core	Human metapneumovirus (strain CAN97-83)	Human metapneumovirus (strain CAN97-83)
+176652	core	Invertebrate iridescent virus 6 (IIV-6)	Invertebrate iridescent virus 6 (IIV-6)
+180170	core	Infectious spleen and kidney necrosis virus (isolate Mandarin fish/China/Nanhai/1998)	Infectious spleen and kidney necrosis virus (isolate Mandarin fish/China/Nanhai/1998)
+181082	core	Emiliania huxleyi virus 86 (isolate United Kingdom/English Channel/1999)	Emiliania huxleyi virus 86 (isolate United Kingdom/English Channel/1999)
+186538	core	Zaire ebolavirus (strain Mayinga-76)	Zaire ebolavirus (strain Mayinga-76)
+190061	core	Fowl adenovirus A serotype 1 (strain CELO / Phelps)	Fowl adenovirus A serotype 1 (strain CELO / Phelps)
+194440	core	Human T-cell leukemia virus 1 (isolate Caribbea HS-35 subtype A)	Human T-cell leukemia virus 1 (isolate Caribbea HS-35 subtype A)
+194699	core	Bordetella phage BPP-1	Bordetella phage BPP-1
+195054	core	Human parechovirus 2 (strain Williamson)	Human parechovirus 2 (strain Williamson)
+202566	core	Cherry rasp leaf virus (isolate Potato/United States	Cherry rasp leaf virus (isolate Potato/United States
+208964	periphery	Pseudomonas aeruginosa	Pseudomonas aeruginosa PAO1
+212035	core	Acanthamoeba polyphaga mimivirus	Acanthamoeba polyphaga mimivirus
+214092	core	Yersinia pestis CO92	Yersinia pestis CO92
+216591	periphery	Burkholderia cenocepacia	Burkholderia cenocepacia J2315
+220340	core	Bean golden yellow mosaic virus (isolate Puerto Rico-Japan)	Bean golden yellow mosaic virus (isolate Puerto Rico-Japan)
+223926	periphery	Vibrio parahaemolyticus	Vibrio parahaemolyticus RIMD 2210633
+224308	periphery	Bacillus subtilis 168	Bacillus subtilis subsp. subtilis str. 168
+243277	core	Vibrio cholerae O1	Vibrio cholerae O1 biovar El Tor str. N16961
+257310	core	Bordetella bronchiseptica	Bordetella bronchiseptica RB50
+258594	periphery	Rhodopseudomonas palustris CGA009	Rhodopseudomonas palustris CGA009
+305674	core	Deerpox virus (strain Mule deer/United States/W-848-83/1983)	Deerpox virus (strain Mule deer/United States/W-848-83/1983)
+307456	core	Rachiplusia ou multiple nucleopolyhedrovirus (strain R1)	Rachiplusia ou multiple nucleopolyhedrovirus (strain R1)
+312185	core	Equine rhinitis B virus 1 (strain Equine/Switzerland/P1436/71/1971)	Equine rhinitis B virus 1 (strain Equine/Switzerland/P1436/71/1971)
+312309	periphery	Vibrio fischeri	Vibrio fischeri ES114
+316385	periphery	Escherichia coli K12 DH10B	Escherichia coli str. K-12 substr. DH10B
+316407	periphery	Escherichia coli K12 W3110	Escherichia coli str. K-12 substr. W3110
+318558	core	Tupaia virus (isolate Tupaia/Thailand/-/1986)	Tupaia virus (isolate Tupaia/Thailand/-/1986)
+318844	core	Tibrogargan virus (strain CS132)	Tibrogargan virus (strain CS132)
+337041	core	Human papillomavirus type 16	Human papillomavirus type 16
+337042	core	Human papillomavirus type 18	Human papillomavirus type 18
+337051	core	Human papillomavirus type 5	Human papillomavirus type 5
+342409	core	White spot syndrome virus (isolate Shrimp/China/Tongan/1996)	White spot syndrome virus (isolate Shrimp/China/Tongan/1996)
+345201	core	Invertebrate iridescent virus 3	Invertebrate iridescent virus 3
+348604	core	Enterobacteria phage T4	Enterobacteria phage T4
+351073	core	Reovirus type 1 (strain Lang)	Reovirus type 1 (strain Lang)
+370833	core	Tomato torrado virus (isolate Solanum lycopersicum/Spain/PRIToTV0301/-)	Tomato torrado virus (isolate Solanum lycopersicum/Spain/PRIToTV0301/-)
+374840	core	Enterobacteria phage phiX174 (Isolate Sanger)	Enterobacteria phage phiX174 (Isolate Sanger)
+375286	core	Janthinobacterium sp. Marseille	Janthinobacterium sp. Marseille
+469008	periphery	Escherichia coli BL21DE3	Escherichia coli BL21(DE3)
+481805	periphery	Escherichia coli ATCC8739	Escherichia coli ATCC 8739
+511145	core	Escherichia coli K12 MG1655	Escherichia coli str. K-12 substr. MG1655
+637910	core	Citrobacter rodentium	Citrobacter rodentium ICC168
+693997	core	Feline coronavirus (strain FIPV WSU-79/1146)	Feline coronavirus (strain FIPV WSU-79/1146)
+694005	core	Murine coronavirus (strain A59)	Murine coronavirus (strain A59)
+694009	core	Human SARS coronavirus	Human SARS coronavirus
+694014	core	Avian infectious bronchitis virus (strain Beaudette)	Avian infectious bronchitis virus (strain Beaudette)
+748671	periphery	Lactobacillus crispatus	Lactobacillus crispatus ST1
+1031711	core	Ralstonia solanacearum Po82	Ralstonia solanacearum Po82
+1094373	core	Drosophila melanogaster sigma virus (isolate Drosophila/USA/AP30/2005)	Drosophila melanogaster sigma virus (isolate Drosophila/USA/AP30/2005)
+1285595	core	Musca hytrovirus(isolate Musca domestica/United States/Boucias/-)	Musca hytrovirus(isolate Musca domestica/United States/Boucias/-)
+1285600	core	Nile crocodilepox virus (isolate Crocodylus niloticus/Zimbabwe/Ume/2001)	Nile crocodilepox virus (isolate Crocodylus niloticus/Zimbabwe/Ume/2001)
+1297662	core	Thrush coronavirus HKU12 (isolate Grey-backed thrush/Hong Kong/HKU12-600/2007)	Thrush coronavirus HKU12 (isolate Grey-backed thrush/Hong Kong/HKU12-600/2007)
+1330524	core	Salivirus A (isolate Human/Nigeria/NG-J1/2007)	Salivirus A (isolate Human/Nigeria/NG-J1/2007)
+1335626	core	Human coronavirus EMC (isolate United Kingdom/H123990006/2012)	Human coronavirus EMC (isolate United Kingdom/H123990006/2012)
+1511779	core	Mischivirus A (isolate Miniopterus schreibersii/China/MsPV-1/2010)	Mischivirus A (isolate Miniopterus schreibersii/China/MsPV-1/2010)
+1511900	core	Human parvovirus B19 (strain HV)	Human parvovirus B19 (strain HV)
+1511908	core	Murine minute virus (strain MVM prototype)	Murine minute virus (strain MVM prototype)
+1513235	core	Cafeteria roenbergensis virus (strain BV-PW1)	Cafeteria roenbergensis virus (strain BV-PW1)

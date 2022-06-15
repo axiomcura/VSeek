@@ -4,9 +4,9 @@ import pandas as pd
 
 # vseek imports
 import vseek.common.vseek_paths as vsp
-from vseek.common.checks import check_fasta_format
 from vseek.common.errors import InvalidFileError
-from vseek.common.io_files import get_viral_genome_fasta_paths, get_genome_genes_paths
+import vseek.apis.string_db as string_db
+from vseek.common.io_files import *
 
 
 def load_genome(file_path: str) -> tuple:
@@ -65,7 +65,7 @@ def load_bat_virus_data() -> pd.DataFrame:
     FileNotFoundError
         raise if the file is not found in the database
     """
-    load_path = Path(vsp.db_path()) / "filtered_bat_virus.csv.gz"
+    load_path = Path(vsp.db_path()) / "final_filtered_bat_virus.csv.gz"
     if not load_path.is_file():
         raise FileNotFoundError("Unable to find viral bat database")
 
@@ -155,6 +155,36 @@ def load_viral_genes(accession: str) -> list[str]:
 
     return sequences
 
+
+def load_species_atlas() -> pd.DataFrame:
+    """Loads StringDB species atlas
+
+    Returns
+    -------
+    pd.DataFrame
+        taxon ids associated with species
+
+    Raises
+    ------
+
+    """
+    load_path = Path(vsp.ppi_db_path()) / "stringdb_species_codes.tsv"
+    if not load_path.is_file():
+        print("Warning: species atlas not found. Downlaoding...")
+        species_df = string_db.download_species_atlas()
+        return species_df
+    else:
+        return pd.read_table(load_path)
+
+
+def load_human_ppi() -> pd.DataFrame:
+    ppi_path = Path(vsp.ppi_db_path()) / "human_ppi.tsv.gz"
+    if not ppi_path.is_file():
+        print("Warning: Protein interactions data not found. Downloading ...")
+        ppi_df = string_db.download_all_human_interactions()
+        return ppi_df
+    else:
+        return pd.read_table(ppi_path, sep="\t")
 
 # -----------------------------
 # private functions (Format usage only)

@@ -99,6 +99,18 @@ def metagenome_path() -> str:
     return str(fasta_dir_path.absolute())
 
 
+def ppi_db_path() -> str:
+    """Returns path to string_db directory
+
+    Returns
+    -------
+    str
+        path to string db directory
+    """
+    ppi_path = Path(db_path()) / "protein_interactions"
+    return str(ppi_path.absolute())
+
+
 # -----------------------------
 # Initializations of directories
 # -----------------------------
@@ -177,3 +189,20 @@ def init_fasta_dir() -> str:
     fasta_path_str = str(metagenome_path_obj.absolute())
 
     return fasta_path_str
+
+
+def init_string_dir() -> str:
+    """Creates a fasta directory if it does not exists and returns
+    the path.
+
+    Returns
+    -------
+    str
+        path to fasta directory
+    """
+    ppi_path_obj = Path(ppi_db_path())
+    ppi_path_obj.mkdir(exist_ok=True)
+    fasta_path_str = str(ppi_path_obj.absolute())
+
+    return fasta_path_str
+
