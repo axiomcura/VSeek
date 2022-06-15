@@ -45,6 +45,7 @@ def download_fasta(
         returns the absolute path where the fastq files are downloaded
     """
 
+    print("\nDownloading Metagenome files")
     # type checking
     if isinstance(sra_ids, str):
         sra_ids = sra_ids.split()

@@ -7,6 +7,7 @@
         "fasta",
         "fasterq",
         "geolocations",
+        "iban",
         "infile",
         "lenghts",
         "metagenome",
@@ -15,6 +16,8 @@
         "pfetch",
         "retmax",
         "subdict",
+        "vfiles",
+        "vloader",
         "vseek"
     ]
 }

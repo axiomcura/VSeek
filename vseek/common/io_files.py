@@ -4,9 +4,11 @@ import json
 from typing import Union
 from collections import defaultdict
 from pathlib import Path
+import pandas as pd
 
 # vseek imports
 import vseek.common.vseek_paths as vsp
+import vseek.common.loader as vloader
 from vseek.common.errors import *
 from vseek.common.checks import prefetch_dir_exists, metagenome_dir_exists
 
@@ -199,6 +201,39 @@ def save_genes(accession: str, contents: dict) -> None:
     with open(save_path, "w") as infile:
         json.dump(json_conts, infile)
 
+
+def save_interaction_profiles(ppi_df: pd.DataFrame):
+    """Generates interaction profiles in SIF format
+
+    Parameters
+    ----------
+    ppi_df : pd.DataFrame
+        protein-protein interactions profile
+    """
+    s_atlas = vloader.load_species_atlas()
+    x = ppi_df.groupby(by=["species_2"])
+    for species_id, species_df in x:
+        species_name = s_atlas.loc[s_atlas["taxon_id"] == species_id][
+            "official_name_ncbi"
+        ].iloc[0]
+        species_name = "_".join(species_name.split()).replace("/", "")
+
+        group2 = species_df.groupby("protein_2")
+
+        interactions = []
+        for protein_name, interaction_df in group2:
+            all_human_proteins = " ".join(interaction_df["protein_1"].tolist())
+            interaction_str = f"{str(protein_name)} pp {all_human_proteins}"
+            interactions.append(interaction_str)
+
+        interaction_save_path = (
+            Path(vsp.init_profile_dir()) / f"{species_name}_interaction.sif"
+        )
+        with open(interaction_save_path, "w") as outfile:
+            for interaction in interactions:
+                outfile.write(f"{interaction}\n")
+
+
 # -----------------------------
 # Removers
 # -----------------------------
@@ -220,6 +255,7 @@ def clean_all_genes() -> None:
         else:
             print(f"Warning: {target} is not a file")
 
+
 # -----------------------------
 # Private functions
 # -----------------------------
@@ -239,7 +275,6 @@ def _viral_genome_fasta_path_lookup() -> dict:
         query = f"{genome_path}/*.fasta"
         fasta_file_path = glob.glob(query)[0]
         all_fasta_paths[genome_id] = fasta_file_path
-
 
     return all_fasta_paths
 

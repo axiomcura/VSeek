@@ -69,7 +69,7 @@ def load_bat_virus_data() -> pd.DataFrame:
     if not load_path.is_file():
         raise FileNotFoundError("Unable to find viral bat database")
 
-    return pd.read_csv(load_path)  # .drop("Unnamed: 0", axis="columns")
+    return pd.read_csv(load_path)
 
 
 def load_geolocations() -> pd.DataFrame:
@@ -185,6 +185,39 @@ def load_human_ppi() -> pd.DataFrame:
         return ppi_df
     else:
         return pd.read_table(ppi_path, sep="\t")
+
+
+def load_viral_counts(count_path=None) -> dict:
+    """Loads viral count with given path
+
+    Parameters
+    ----------
+    count_path : str, optional
+        path to viral count, default is None
+
+    Returns
+    -------
+    dict
+        ncbi accession and number of counts as key value pairs
+
+    """
+    if count_path is not None:
+        count_path_obj = Path(count_path)
+        count_path_str = str(count_path_obj.absolute())
+        if not count_path_obj.is_file():
+            raise FileNotFoundError("Unable to find provided counts")
+
+        with open(count_path_str, "r") as gene_file:
+            viral_counts = json.load(gene_file)
+
+            return viral_counts
+    else:
+        count_path_obj = Path(vsp.init_results_dir()) / "viral_composition_counts.josn"
+        count_path_str = str(count_path_obj.absolute())
+        with open(count_path_str, "r") as gene_file:
+            viral_counts = json.load(gene_file)
+
+            return viral_counts
 
 
 # -----------------------------

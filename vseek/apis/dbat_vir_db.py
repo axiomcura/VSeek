@@ -18,6 +18,31 @@ import vseek.common.vseek_paths as vsp
 warnings.filterwarnings("ignore")
 
 
+def collect_dbatvir_data() -> pd.DataFrame:
+    """Main wrapper to download data from DBatVir"""
+
+    # init db path
+    db_path_str = vsp.db_path()
+    db_path = Path(db_path_str)
+    db_path.mkdir(exist_ok=True)
+    save_path = os.path.join(db_path, "DBatVir_db.csv.gz")
+
+    # if it exists in the database, no need to download
+    check = Path(save_path).is_file()
+    if check is True:
+        return pd.read_csv(save_path)
+
+    else:
+        # Collect all data
+        df_list = _collector()
+
+        # save data to db
+        main_df = pd.concat(df_list, axis=0)
+        main_df.to_csv(save_path, compression="gzip", index=False)
+
+        return main_df
+
+
 def _group_dfs(data_path: str) -> list:
     """Places all pandas data frames into a list
 
@@ -54,7 +79,7 @@ def _group_dfs(data_path: str) -> list:
     return df_list
 
 
-def collector() -> list:
+def _collector() -> list:
     """Downloads all Bat associated viruses from DBatVir
 
     Returns
@@ -142,28 +167,3 @@ def collector() -> list:
     shutil.rmtree(dl_path)
 
     return dfs
-
-
-def collect_dbatvir_data() -> pd.DataFrame:
-    """Main wrapper to download data from DBatVir"""
-
-    # init db path
-    db_path_str = vsp.db_path()
-    db_path = Path(db_path_str)
-    db_path.mkdir(exist_ok=True)
-    save_path = os.path.join(db_path, "DBatVir_db.csv.gz")
-
-    # if it exists in the database, no need to download
-    check = Path(save_path).is_file()
-    if check is True:
-        return pd.read_csv(save_path)
-
-    else:
-        # Collect all data
-        df_list = collector()
-
-        # save data to db
-        main_df = pd.concat(df_list, axis=0)
-        main_df.to_csv(save_path, compression="gzip", index=False)
-
-        return main_df

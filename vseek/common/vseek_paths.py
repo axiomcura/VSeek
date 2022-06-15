@@ -205,3 +205,20 @@ def init_string_dir() -> str:
     fasta_path_str = str(ppi_path_obj.absolute())
 
     return fasta_path_str
+
+
+def init_profile_dir() -> str:
+    """Creates a profile directory if it does not exists and returns
+    the path.
+
+    Returns
+    -------
+    str
+        path to profile directory
+    """
+    profile_path = Path(results_dir()) / "profiles"
+    profile_path.mkdir(exist_ok=True)
+
+    profile_path_str = str(profile_path.absolute())
+
+    return profile_path_str
