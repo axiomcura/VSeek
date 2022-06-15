@@ -35,7 +35,6 @@ def download_species_atlas() -> pd.DataFrame:
     return species_df
 
 
-
 def download_all_human_interactions() -> str:
     zipped_path = Path(vsp.ppi_db_path()) / "9606.protein.links.v10.5.txt.gz"
     ppi_save_path = Path(vsp.ppi_db_path()) / "human_ppi.tsv.gz"
@@ -159,8 +158,6 @@ def _annotate_viral_taxon(ppi_interactions: pd.DataFrame) -> pd.DataFrame:
 
 
 # loader module
-
-
 
 
 def _ppi_contents_parser(ppi_file: str) -> list[str]:

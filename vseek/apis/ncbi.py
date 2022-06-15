@@ -182,7 +182,7 @@ def get_taxa_id(email: str, accession: str, buffer=0.5) -> str:
     taxon_id = ""
     for idx, line in enumerate(data):
         if 'db "taxon"' in line:
-            t_id = data[idx+1].strip().split()[-1]
+            t_id = data[idx + 1].strip().split()[-1]
             taxon_id += t_id
             break
     return taxon_id

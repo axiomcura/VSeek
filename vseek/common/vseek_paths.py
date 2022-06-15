@@ -205,4 +205,3 @@ def init_string_dir() -> str:
     fasta_path_str = str(ppi_path_obj.absolute())
 
     return fasta_path_str
-
