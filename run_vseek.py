@@ -116,6 +116,7 @@ if __name__ == "__main__":
     prefetch_dir = vsp.init_prefetch_dir()
     profile_dir = vsp.init_profile_dir()
     string_db_dir = vsp.init_string_dir()
+    plot_dir = vsp.init_plots_dir()
 
     # loading all datasets, if it doesn't exists, it will download it
     if args.email is not None and args.profile is False:
@@ -333,12 +334,12 @@ if __name__ == "__main__":
     # step 3. Plotting
     # ----------------------
     viral_comp_save_path = (
-        Path(results_path) / "viral_characterizations_piechart_plot.png"
+        Path(plot_dir) / "viral_characterizations_piechart_plot.png"
     )
     plot_viral_composition(selected_counts, save_path=viral_comp_save_path)
     dfi.export(identified_virus_df, save_path_identified_virus_table_img)
 
-    save_path_geo_plot = str((Path(results_path) / "geo_plot.png").absolute())
+    save_path_geo_plot = str((Path(plot_dir) / "geo_plot.png").absolute())
     bat_country_geo_plot(all_bats_country_df, save_path=save_path_geo_plot)
 
     print("\nprocess complete")
