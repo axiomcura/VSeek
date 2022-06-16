@@ -83,7 +83,10 @@ if __name__ == "__main__":
 
     # type checking
     if args.profile is False:
-        if len(args.input) > 1:
+        check = args.input[0]
+        if check.endswith(".json") or not check.startswith("SRR"):
+            raise ValueError("Please provide a valid accession id")
+        elif len(args.input) > 1:
             raise ValueError("Only 1 accession id can be provided")
         elif len(args.input) == 0:
             raise ValueError("Requires at least one accession number")
@@ -97,9 +100,9 @@ if __name__ == "__main__":
         args.input = args.input[0]
 
     if args.threshold > 1.0 or args.threshold <= 0:
-        raise ValueError("Similarity threshold must be bewtween 0 <= x > 1.0")
+        raise ValueError("Similarity threshold must be between 0 <= x > 1.0")
     if args.rel_threshold > 100.0 or args.rel_threshold < 0:
-        raise ValueError("Similarity threshold must be bewtween 0.0 < x > 100.0")
+        raise ValueError("Similarity threshold must be beteen 0.0 < x > 100.0")
 
 
     # -----------------------
