@@ -216,7 +216,7 @@ def init_profile_dir() -> str:
     str
         path to profile directory
     """
-    profile_path = Path(results_dir()) / "profiles"
+    profile_path = Path(results_dir()) / "ppi-profiles"
     profile_path.mkdir(exist_ok=True)
 
     profile_path_str = str(profile_path.absolute())

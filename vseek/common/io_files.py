@@ -210,6 +210,7 @@ def save_interaction_profiles(ppi_df: pd.DataFrame):
     ppi_df : pd.DataFrame
         protein-protein interactions profile
     """
+    print("\nCreating adjacency list files in SIF and TXT formats\n")
     s_atlas = vloader.load_species_atlas()
     x = ppi_df.groupby(by=["species_2"])
     for species_id, species_df in x:
@@ -221,10 +222,11 @@ def save_interaction_profiles(ppi_df: pd.DataFrame):
         group2 = species_df.groupby("protein_2")
 
         interactions = []
+        adjacency_list_conts = []
         for protein_name, interaction_df in group2:
             all_human_proteins = " ".join(interaction_df["protein_1"].tolist())
-            interaction_str = f"{str(protein_name)} pp {all_human_proteins}"
-            interactions.append(interaction_str)
+            sif_interaction_str = f"{str(protein_name)} pp {all_human_proteins}"
+            interactions.append(sif_interaction_str)
 
         interaction_save_path = (
             Path(vsp.init_profile_dir()) / f"{species_name}_interaction.sif"
@@ -232,6 +234,13 @@ def save_interaction_profiles(ppi_df: pd.DataFrame):
         with open(interaction_save_path, "w") as outfile:
             for interaction in interactions:
                 outfile.write(f"{interaction}\n")
+
+        adjacency_save_path = (
+            Path(vsp.init_profile_dir()) / f"{species_name}_interaction.txt"
+        )
+        with open(adjacency_save_path, "w") as outfile:
+            for adj_interaction in adjacency_list_conts:
+                outfile.write(f"{adj_interaction}\n")
 
 
 # -----------------------------
