@@ -43,10 +43,19 @@ if __name__ == "__main__":
         description="Command line program for characterizing bat viruses"
     )
     parser.add_argument(
-        "-i", "--input", type=str, required=False, nargs="+", help="SRR id or profile if --profile flag is used"
+        "-i",
+        "--input",
+        type=str,
+        required=False,
+        nargs="+",
+        help="SRR id or profile if --profile flag is used",
     )
     parser.add_argument(
-        "--profile", required=False, default=False, action="store_true", help="Path to viral counts json file"
+        "--profile",
+        required=False,
+        default=False,
+        action="store_true",
+        help="Path to viral counts json file",
     )
     parser.add_argument(
         "-e",
@@ -103,7 +112,6 @@ if __name__ == "__main__":
         raise ValueError("Similarity threshold must be between 0 <= x > 1.0")
     if args.rel_threshold > 100.0 or args.rel_threshold < 0:
         raise ValueError("Similarity threshold must be beteen 0.0 < x > 100.0")
-
 
     # -----------------------
     # step 0. setup and data collection
@@ -333,9 +341,7 @@ if __name__ == "__main__":
     # -----------------------
     # step 3. Plotting
     # ----------------------
-    viral_comp_save_path = (
-        Path(plot_dir) / "viral_characterizations_piechart_plot.png"
-    )
+    viral_comp_save_path = Path(plot_dir) / "viral_characterizations_piechart_plot.png"
     plot_viral_composition(selected_counts, save_path=viral_comp_save_path)
     dfi.export(identified_virus_df, save_path_identified_virus_table_img)
 

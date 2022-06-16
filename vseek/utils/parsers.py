@@ -13,12 +13,17 @@ def parse_ncbi_viral_accessions(contents: str) -> tuple:
         header and clean list of viral accession information.
     """
     contents = contents.splitlines()
-    cols = contents[1].strip().replace("\t", "-").replace('"', '').split("-")[1:]
+    cols = contents[1].strip().replace("\t", "-").replace('"', "").split("-")[1:]
     all_data = []
     for line_cont in contents[2:]:
-        data = line_cont.strip().replace("\n", "").replace("\t", "---").replace('"', '').split("---")
+        data = (
+            line_cont.strip()
+            .replace("\n", "")
+            .replace("\t", "---")
+            .replace('"', "")
+            .split("---")
+        )
         all_data.append(data)
-
 
     return (cols, all_data)
 

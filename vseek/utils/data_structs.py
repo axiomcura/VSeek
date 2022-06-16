@@ -3,6 +3,7 @@ class ReadRecord:
     srr_id: which SRR file it came from
     fragment_id: which fragment id was it
     """
+
     __slots__ = ("srr_id", "fragment_id", "sequence", "length")
 
     def __init__(self, srr_id, fragment_id, sequence, length):
