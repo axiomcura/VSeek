@@ -222,3 +222,18 @@ def init_profile_dir() -> str:
     profile_path_str = str(profile_path.absolute())
 
     return profile_path_str
+
+
+def init_plots_dir() -> str:
+    """Creates a plots directory in the results directory
+
+    Returns
+    -------
+    str
+        path to plots directory
+    """
+    plots_path_obj = Path(results_dir()) / "plots"
+    plots_path_obj.mkdir(exist_ok=True)
+
+    plots_path_str = str(plots_path_obj.absolute())
+    return plots_path_str

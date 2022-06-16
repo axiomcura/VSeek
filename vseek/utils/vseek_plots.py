@@ -4,6 +4,11 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
+import networkx
+from bokeh.io import output_file, show, save
+from bokeh.models import Range1d, Circle, ColumnDataSource, MultiLine
+from bokeh.plotting import figure
+from bokeh.plotting import from_networkx
 
 #VSeek imports
 import vseek.common.vseek_paths as vsp
@@ -60,3 +65,44 @@ def bat_country_geo_plot(bat_country_df: pd.DataFrame, save_path: str) -> None:
         outfile.write(img_bytes)
 
     print(f"to view interactive plot: copy and pase this onto your browser:\n{Path(save_interactive_path).as_uri()}")
+
+def ppi_interactive_plot(name: str, ppi_df: pd.DataFrame) -> None:
+  """Generates an interactive plot that can be viewed in the browser.
+
+  Parameters
+  ----------
+  name : str
+      Name of the species
+  ppi_df : pd.DataFrame
+      pd.DataFrame that contains edge connections [viral_protein, human_protein]
+      as entries
+  """
+  title = f'{name} and human protein-protein interactions network'
+
+
+  # create edge graph
+  G = networkx.from_pandas_edgelist(ppi_df, "protein_2", "protein_1")
+
+  #Create a plot — set dimensions, toolbar, and title
+  HOVER_TOOLTIPS = [("Protein_id", "@index")]
+  plot = figure(tooltips = HOVER_TOOLTIPS,
+                tools="pan,wheel_zoom,save,reset", active_scroll='wheel_zoom',
+              x_range=Range1d(-10.1, 10.1), y_range=Range1d(-10.1, 10.1), title=title,
+              plot_width=1300, plot_height=800)
+
+  network_graph = from_networkx(G, networkx.spring_layout, scale=10, center=(0, 0))
+
+  #Set node size and color
+  network_graph.node_renderer.glyph = Circle(size=15, fill_color='skyblue')
+
+  #Set edge opacity and width
+  network_graph.edge_renderer.glyph = MultiLine(line_alpha=0.5, line_width=1)
+
+  #Add network graph to the plot
+  plot.renderers.append(network_graph)
+
+
+  save_path = Path(vsp.init_plots_dir()) / f"{name}_ppi_plot.html"
+  output_file(str(save_path.absolute()))
+  print(f"interactive plot saved: {save_path.as_uri()}")
+  save(plot)

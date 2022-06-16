@@ -19,3 +19,8 @@ dependencies:
   - conda-forge::dataframe_image>=0.1.0
   - conda-forge::plotly>=5.8.0
   - conda-forge::python-kaleido>=0.2.0
+  - conda-forge::scipy==1.8.0
+  - conda-forge::networkx==2.6.3
+  - conda-forge::bokeh>= 2.4.2
+
+

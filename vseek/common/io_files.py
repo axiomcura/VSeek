@@ -9,6 +9,7 @@ import pandas as pd
 # vseek imports
 import vseek.common.vseek_paths as vsp
 import vseek.common.loader as vloader
+import vseek.utils.vseek_plots as vplots
 from vseek.common.errors import *
 from vseek.common.checks import prefetch_dir_exists, metagenome_dir_exists
 
@@ -210,8 +211,23 @@ def save_interaction_profiles(ppi_df: pd.DataFrame):
     ppi_df : pd.DataFrame
         protein-protein interactions profile
     """
-    print("\nCreating protein-protein network profiles files in SIF and TXT formats\n")
+    print("\nGenerating viral-human protein interaction plots")
     s_atlas = vloader.load_species_atlas()
+
+    for viral_species_id in ppi_df["species_2"].unique().tolist():
+        viral_interactions = ppi_df.loc[ppi_df["species_2"] == int(viral_species_id)]
+        viral_interactions = viral_interactions[["protein_2", "protein_1"]]
+
+        species_name = s_atlas.loc[s_atlas["taxon_id"] == viral_species_id][
+            "official_name_ncbi"
+        ].iloc[0]
+        species_name = "_".join(species_name.split()).replace("/", "")
+
+        vplots.ppi_interactive_plot(species_name, viral_interactions)
+    print("Copy and paste these URI's into your browser")
+
+    print("\nCreating protein-protein network profiles files in SIF and TXT formats\n")
+
     x = ppi_df.groupby(by=["species_2"])
     for species_id, species_df in x:
         species_name = s_atlas.loc[s_atlas["taxon_id"] == species_id][
@@ -225,7 +241,9 @@ def save_interaction_profiles(ppi_df: pd.DataFrame):
         adjacency_list_conts = []
         for protein_name, interaction_df in group2:
             all_human_proteins = " ".join(interaction_df["protein_1"].tolist())
+            adjacency_list_cont = f"{str(protein_name)} {all_human_proteins}"
             sif_interaction_str = f"{str(protein_name)} pp {all_human_proteins}"
+            adjacency_list_conts.append(all_human_proteins)
             interactions.append(sif_interaction_str)
 
         interaction_save_path = (

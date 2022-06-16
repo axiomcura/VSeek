@@ -18,6 +18,7 @@
         "subdict",
         "vfiles",
         "vloader",
+        "vplots",
         "vseek"
     ]
 }
