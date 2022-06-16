@@ -210,7 +210,7 @@ def save_interaction_profiles(ppi_df: pd.DataFrame):
     ppi_df : pd.DataFrame
         protein-protein interactions profile
     """
-    print("\nCreating adjacency list files in SIF and TXT formats\n")
+    print("\nCreating protein-protein network profiles files in SIF and TXT formats\n")
     s_atlas = vloader.load_species_atlas()
     x = ppi_df.groupby(by=["species_2"])
     for species_id, species_df in x:

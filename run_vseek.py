@@ -323,8 +323,10 @@ if __name__ == "__main__":
 
     # GENERATING AN INTERACTION PROFILE
     # filter the ppi data with the taxon id found in the viral_summary df
+    ppi_profile_save_path = Path(results_path) / "complete_ppi_profile.csv"
     found_virus_taxon_id = viral_summary_df["taxon_id"].unique().tolist()
     ppi_df = ppi_df.loc[ppi_df["species_2"].isin(found_virus_taxon_id)]
+    ppi_df.to_csv(ppi_profile_save_path, index=False)
     vfiles.save_interaction_profiles(ppi_df)
 
     # -----------------------
@@ -339,4 +341,4 @@ if __name__ == "__main__":
     save_path_geo_plot = str((Path(results_path) / "geo_plot.png").absolute())
     bat_country_geo_plot(all_bats_country_df, save_path=save_path_geo_plot)
 
-    print("process compelte")
+    print("\nprocess complete")
