@@ -17,4 +17,5 @@ dependencies:
   - conda-forge::webdriver-manager>=3.7.0
   - conda-forge::ipykernel>=6.13.0
   - conda-forge::dataframe_image>=0.1.0
-  - conda-forge::python-kaleido>=2.0.0
+  - conda-forge::plotly>=5.8.0
+  - conda-forge::python-kaleido>=0.2.0
