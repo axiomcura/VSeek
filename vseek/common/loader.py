@@ -6,7 +6,7 @@ import pandas as pd
 import vseek.common.vseek_paths as vsp
 from vseek.common.errors import InvalidFileError
 import vseek.apis.string_db as string_db
-from vseek.common.io_files import *
+import vseek.common.io_files as vloader
 
 
 def load_genome(file_path: str) -> tuple:
@@ -133,11 +133,11 @@ def load_viral_genes(accession: str) -> list[str]:
     list[str]
         list of coding sequences
     """
-    viral_genome_paths = get_viral_genome_fasta_paths(query=accession)
+    viral_genome_paths = vloader.get_viral_genome_fasta_paths(query=accession)
     sel_viral_genome_path = viral_genome_paths[accession]
     header, viral_genome = load_genome(sel_viral_genome_path)
 
-    viral_genes_paths = get_genome_genes_paths(query=accession)
+    viral_genes_paths = vloader.get_genome_genes_paths(query=accession)
     viral_genes_paths = viral_genes_paths[accession]
     meta_data = load_genes_metadata(viral_genes_paths)
 
