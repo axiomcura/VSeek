@@ -43,7 +43,10 @@ if __name__ == "__main__":
         description="Command line program for characterizing bat viruses"
     )
     parser.add_argument(
-        "-i", "--input", type=list, required=True, nargs="+", help="SRR id"
+        "-i", "--input", type=str, required=False, nargs="+", help="SRR id or profile if --profile flag is used"
+    )
+    parser.add_argument(
+        "--profile", required=False, default=False, action="store_true", help="Path to viral counts json file"
     )
     parser.add_argument(
         "-e",
@@ -70,13 +73,6 @@ if __name__ == "__main__":
         help="relative abundance cutoff. The smaller the percentage, the noisier the data",
     )
     parser.add_argument(
-        "--test_run",
-        default=False,
-        action="store_true",
-        required=False,
-        help="Conducts a test run without API calls and skips discovery step",
-    )
-    parser.add_argument(
         "--viral_counts",
         default=None,
         type=str,
@@ -86,12 +82,25 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # type checking
-    if len(args.input) > 1:
-        raise ValueError("Only 1 accession id can be provided")
+    if args.profile is False:
+        if len(args.input) > 1:
+            raise ValueError("Only 1 accession id can be provided")
+        elif len(args.input) == 0:
+            raise ValueError("Requires at least one accession number")
+
+    elif args.profile is True:
+        check = args.input[0]
+        if not check.endswith(".json"):
+            raise ValueError("Invalid file added. just be in json format")
+        if len(args.input) > 1:
+            raise ValueError("only one profile is allowed")
+        args.input = args.input[0]
+
     if args.threshold > 1.0 or args.threshold <= 0:
         raise ValueError("Similarity threshold must be bewtween 0 <= x > 1.0")
     if args.rel_threshold > 100.0 or args.rel_threshold < 0:
         raise ValueError("Similarity threshold must be bewtween 0.0 < x > 100.0")
+
 
     # -----------------------
     # step 0. setup and data collection
@@ -106,7 +115,7 @@ if __name__ == "__main__":
     string_db_dir = vsp.init_string_dir()
 
     # loading all datasets, if it doesn't exists, it will download it
-    if args.email is not None and args.test_run is False:
+    if args.email is not None and args.profile is False:
         print("Downloading all the datasets. Might take a while")
         download_fasta()
         get_viral_genomes()  # downloads all known viral genomes
@@ -135,7 +144,7 @@ if __name__ == "__main__":
     # step 1. Discovery
     # -----------------------
     # if --test-run is true : skipping discovery step and use sample_data
-    if args.test_run is False:
+    if args.profile is False:
         print(
             "WARNING: Running Discovery step, this will take a long time to finish. Rougly 6000y years for 39 million reads"
         )
@@ -185,8 +194,10 @@ if __name__ == "__main__":
         viral_count_data = vloader.load_viral_counts(counts_save_path)
     else:
         # NOTE: Place example counts here
+        print("skipping Discovery step... loading")
         exmaple_counts_save_path = Path(database_path) / "viral_composition_counts.json"
-        viral_count_data = vloader.load_viral_counts(exmaple_counts_save_path)
+        viral_counts_path = str(Path(args.input).absolute())
+        viral_count_data = vloader.load_viral_counts(viral_counts_path)
 
     # -----------------------
     # step 2. Profiling

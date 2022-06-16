@@ -42,6 +42,7 @@ def bat_country_geo_plot(bat_country_df: pd.DataFrame, save_path: str) -> None:
         path to save image
 
     """
+    print("\nSaving interactive geo plot")
     fig = px.scatter_geo(bat_country_df, locations="alpha_iso3" , color="bat_counts",
                         title="Identified Bat's Viral Family strains and Location",
                         hover_name="country", size="bat_counts",
@@ -57,3 +58,5 @@ def bat_country_geo_plot(bat_country_df: pd.DataFrame, save_path: str) -> None:
     with open(save_path, "wb") as outfile:
         img_bytes = fig.to_image(format="png", engine="kaleido")
         outfile.write(img_bytes)
+
+    print(f"to view interactive plot: copy and pase this onto your browser:\n{Path(save_interactive_path).as_uri()}")
