@@ -1,4 +1,4 @@
-class FastaReadRecord:
+class ReadRecord:
     """Structure class that contains sequence reads information.
     srr_id: which SRR file it came from
     fragment_id: which fragment id was it

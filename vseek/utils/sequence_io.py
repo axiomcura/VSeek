@@ -1,6 +1,6 @@
 from pathlib import Path
 from vseek.common.errors import FastaFileNotFound
-from vseek.utils.data_structs import FastaReadRecord
+from vseek.utils.data_structs import ReadRecord
 
 
 class SequenceIO:
@@ -52,7 +52,7 @@ class SequenceIO:
 
         Returns
         -------
-        FastaReadRecord
+        ReadRecord
             Datatype that contains header_id, fragment_id, sequence and its length
         """
         entry_data = tuple(entry[0].split())
@@ -61,6 +61,6 @@ class SequenceIO:
         sequence = "".join(entry[1:])
         length = len(sequence)
 
-        return FastaReadRecord(
+        return ReadRecord(
             srr_id=header_id, fragment_id=frag_id, sequence=sequence, length=length
         )
