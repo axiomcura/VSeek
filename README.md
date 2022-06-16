@@ -55,7 +55,7 @@ git clone https://github.com/axiomcura/VSeek.git
 The next step is to create an environment and download all the dependencies that `VSeek` requires in order to conduct its analysis. `VSeek` has it’s own `environment.yml` file that contains the required programs and it’s version to download. this is executed by typing 
 
 ```
-conda create env -f environment.yml
+conda env create -f environment.yml
 ```
 
 Then to activate the environment type:
